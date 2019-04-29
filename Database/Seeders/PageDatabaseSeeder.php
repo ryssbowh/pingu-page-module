@@ -31,26 +31,38 @@ class PageDatabaseSeeder extends Seeder
             ]);
             $region = PageRegion::firstOrCreate(
                 ['name' => 'Content'],
-                ['width' => 100, 'height' => 400, 'page_layout_id' => $layout->id]
+                [
+                    'width' => 100, 
+                    'height' => 400, 
+                    'page_layout_id' => $layout->id
+                ]
             );
             $page = Page::firstOrCreate(
                 ['name' => 'test'],
-                ['slug' => 'test1', 'page_layout_id' => $layout->id]
+                [
+                    'slug' => 'test1', 
+                    'page_layout_id' => $layout->id
+                ]
             );
 
             $provider = BlockProvider::firstOrCreate(
                 ['class' => BlockTextProvider::class],
-                ['name' => 'Text', 'block_class' => BlockText::class, 'system' => false]
+                [
+                    'name' => 'Text', 
+                    'block_class' => BlockText::class, 
+                    'system' => false
+                ]
             );
 
-            $block = Block::firstOrCreate(
-                ['machineName' => 'text1'],
-                ['name' => 'Text', 'block_provider_id' => $provider->id]
-            );
-            $textBlock = BlockText::firstOrCreate(
-                ['block_id' => $block->id],
-                ['text' => 'My First Block']
-            );
+            $block = Block::create([
+                'block_provider_id' => $provider->id
+            ]);
+
+            $textBlock = BlockText::create([
+                'block_id' => $block->id,
+                'text' => 'My First Block',
+                'name' => 'First block'
+            ]);
         }
     }
 }
