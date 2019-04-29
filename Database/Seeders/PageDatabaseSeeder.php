@@ -23,28 +23,34 @@ class PageDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $layout = PageLayout::firstOrCreate(['name' => 'One column']);
-        $region = PageRegion::firstOrCreate(
-            ['name' => 'Content'],
-            ['width' => 100, 'height' => 400, 'page_layout_id' => $layout->id]
-        );
-        $page = Page::firstOrCreate(
-            ['name' => 'test'],
-            ['slug' => 'test1', 'page_layout_id' => $layout->id]
-        );
+        $layout = PageLayout::where('name', 'One column')->get();
 
-        $provider = BlockProvider::firstOrCreate(
-            ['class' => BlockTextProvider::class],
-            ['name' => 'Text', 'block_class' => BlockText::class, 'system' => false]
-        );
+        if(!$layout){
+            $layout = Pagelayout::create([
+                'name' => 'One column'
+            ]);
+            $region = PageRegion::firstOrCreate(
+                ['name' => 'Content'],
+                ['width' => 100, 'height' => 400, 'page_layout_id' => $layout->id]
+            );
+            $page = Page::firstOrCreate(
+                ['name' => 'test'],
+                ['slug' => 'test1', 'page_layout_id' => $layout->id]
+            );
 
-        $block = Block::firstOrCreate(
-            ['machineName' => 'text1'],
-            ['name' => 'Text', 'block_provider_id' => $provider->id]
-        );
-        $textBlock = BlockText::firstOrCreate(
-            ['block_id' => $block->id],
-            ['text' => 'My First Block']
-        );
+            $provider = BlockProvider::firstOrCreate(
+                ['class' => BlockTextProvider::class],
+                ['name' => 'Text', 'block_class' => BlockText::class, 'system' => false]
+            );
+
+            $block = Block::firstOrCreate(
+                ['machineName' => 'text1'],
+                ['name' => 'Text', 'block_provider_id' => $provider->id]
+            );
+            $textBlock = BlockText::firstOrCreate(
+                ['block_id' => $block->id],
+                ['text' => 'My First Block']
+            );
+        }
     }
 }
