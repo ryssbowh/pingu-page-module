@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Modules\Core\Http\Controllers\ModelController;
 use Modules\JsGrid\Http\Controllers\JsGridController;
 
-class AdminController extends ModelController
+class AdminLayoutController extends ModelController
 {
 	use JsGridController;
 }

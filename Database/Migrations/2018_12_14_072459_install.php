@@ -30,11 +30,20 @@ class Install extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('page_blocks', function (Blueprint $table) {
+        Schema::create('block_providers', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('class');
+            $table->string('block_class');
             $table->string('name');
-            $table->string('class')->unique();
-            $table->integer('object_id')->unsigned();
+            $table->boolean('system');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('blocks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('block_provider_id')->unsigned()->index();
+            $table->foreign('block_provider_id')->references('id')->on('block_providers');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -42,36 +51,32 @@ class Install extends Migration
         Schema::create('page_regions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->float('width', 8, 1);
+            $table->integer('height')->unsigned();
             $table->integer('page_layout_id')->unsigned()->index();
             $table->foreign('page_layout_id')->references('id')->on('page_layouts');
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::create('view_modes', function (Blueprint $table) {
+        Schema::create('block_page_region', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        Schema::create('view_mode_model', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('model');
-            $table->integer('view_mode_id')->unsigned()->index();
-            $table->foreign('view_mode_id')->references('id')->on('view_modes')->onDelete('cascade');
-            $table->timestamps();
-        });
-
-        Schema::create('page_block_page_region', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('weight')->unsigned();
             $table->integer('page_region_id')->unsigned()->index();
             $table->foreign('page_region_id')->references('id')->on('page_regions');
-            $table->integer('page_block_id')->unsigned()->index();
-            $table->foreign('page_block_id')->references('id')->on('page_blocks');
-            $table->integer('view_mode_id')->unsigned()->index();
-            $table->foreign('view_mode_id')->references('id')->on('view_modes');
+            $table->integer('block_id')->unsigned()->index();
+            $table->foreign('block_id')->references('id')->on('blocks');
             $table->timestamps();
+        });
+
+        Schema::create('block_texts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('block_id')->unsigned()->index();;
+            $table->foreign('block_id')->references('id')->on('blocks')->onDelete('cascade');
+            $table->text('text');
+            $table->text('name');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -82,12 +87,12 @@ class Install extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('page_block_page_region');
-        Schema::dropIfExists('page_blocks');
+        Schema::dropIfExists('block_texts');
+        Schema::dropIfExists('block_page_region');
+        Schema::dropIfExists('blocks');
+        Schema::dropIfExists('block_providers');
         Schema::dropIfExists('pages');
         Schema::dropIfExists('page_regions');
         Schema::dropIfExists('page_layouts');
-        Schema::dropIfExists('view_mode_model');
-        Schema::dropIfExists('view_modes');
     }
 }

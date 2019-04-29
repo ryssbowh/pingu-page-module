@@ -8,7 +8,7 @@ use Modules\Forms\Fields\Text;
 use Modules\Forms\Traits\Formable;
 use Modules\JsGrid\Contracts\JsGridableContract;
 use Modules\JsGrid\Traits\JsGridable;
-use Modules\JsGrid\Components\Text as JsGridText;
+use Modules\JsGrid\Fields\Text as JsGridText;
 use Modules\Page\Entities\PageRegion;
 
 class PageLayout extends BaseModel implements
@@ -19,6 +19,11 @@ class PageLayout extends BaseModel implements
     protected $fillable = ['name'];
 
     protected $visible = ['id', 'name'];
+
+    public static function friendlyName()
+    {
+        return 'Layout';
+    }
 
     public function pages()
     {
@@ -32,7 +37,9 @@ class PageLayout extends BaseModel implements
     public static function jsGridFields()
     {
     	return [
-    		'name' => ['type' => JsGridText::class]
+    		'name' => [
+                'type' => JsGridText::class
+            ]
     	];
     }
 
@@ -66,10 +73,5 @@ class PageLayout extends BaseModel implements
                 'url' => '/admin/'.$this::urlSegment().'/'.$this->id.'/'.PageRegion::urlSegments()
             ]
         ];
-    }
-
-    public static function friendlyName()
-    {
-    	return 'Layout';
     }
 }

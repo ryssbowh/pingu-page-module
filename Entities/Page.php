@@ -6,10 +6,12 @@ use Modules\Core\Entities\BaseModel;
 use Modules\Core\Traits\APIableModel;
 use Modules\Forms\Fields\{Text, Model};
 use Modules\Forms\Traits\Formable;
-use Modules\JsGrid\Components\{Text as JsGridText, Model as JsGridModel};
 use Modules\JsGrid\Contracts\JsGridableContract;
+use Modules\JsGrid\Fields\{Text as JsGridText, Model as JsGridModel};
 use Modules\JsGrid\Traits\JsGridable;
+use Modules\Page\Entities\Block;
 use Modules\Page\Entities\PageLayout;
+use Modules\Page\Entities\PageRegion;
 
 class Page extends BaseModel implements
     JsGridableContract
@@ -79,6 +81,22 @@ class Page extends BaseModel implements
             'slug.required' => 'Url is required',
             'slug.unique' => 'This url already exists',
             'page_layout.required' => 'Layout is required'
+        ];
+    }
+
+    public function getContextualLinks()
+    {
+        return [
+            'edit' => [
+                'title' => 'Edit',
+                'url' => $this::adminEditUrl().'/'.$this->id
+            ],
+            'users' => [
+                'model' => Block::class,
+                'title' => 'Blocks',
+                'url' => $this::adminEditUrl().'/'.$this->id.'/'.Block::urlSegments(),
+                'relatedAddUrl' => Block::adminAddUrl().'?fields[role]='.$this->id
+            ]
         ];
     }
 }

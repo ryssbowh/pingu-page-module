@@ -8,7 +8,10 @@
     "providers": [
         "Modules\\Page\\Providers\\PageServiceProvider"
     ],
-    "aliases": {},
+    "aliases": {
+        "Pages": "Modules\\Page\\Facades\\Pages",
+        "Blocks": "Modules\\Page\\Facades\\Blocks"
+    },
     "files": [
         "start.php"
     ],

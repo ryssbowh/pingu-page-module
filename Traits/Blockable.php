@@ -2,12 +2,18 @@
 
 namespace Modules\Page\Traits;
 
-use Modules\Page\Entities\PageBlock;
+use Modules\Page\Entities\Block;
 
 trait Blockable
 {
-	public function getBlockEntity()
-	{
-		return PageBlock::where(['class' => get_class($this), 'id' -> $this->id]);
-	}
+
+	/**
+	 * Get the generic block
+	 * @return Relation
+	 */
+	public function block()
+    {
+    	return $this->hasOne(Block::class);
+    }
+
 }

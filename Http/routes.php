@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Page\Entities\Block;
 use Modules\Page\Entities\Page;
 use Modules\Page\Entities\PageLayout;
 use Modules\Page\Entities\PageRegion;
@@ -13,42 +14,59 @@ $layoutSlug = PageLayout::routeSlug();
 $regionSegment = PageRegion::urlSegment();
 $regionsSegment = PageRegion::urlSegments();
 $regionSlug = PageRegion::routeSlug();
-
+$blocksSegment = Block::urlSegments();
+/**
+ * Route model binding
+ */
 Route::model($pageSlug, Page::class);
 Route::model($layoutSlug, PageLayout::class);
+Route::model($regionSlug, PageRegion::class);
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin', 'namespace' => 'Modules\Page\Http\Controllers'], function() use ($pageSlug, $pageSegment, $pagesSegment)
+/**
+ * Admin routes
+ */
+Route::group(['middleware' => 'web', 'prefix' => 'admin', 'namespace' => 'Modules\Page\Http\Controllers'], function() use ($pageSlug, $pageSegment, $pagesSegment, $layoutSegment,$layoutsSegment, $layoutSlug, $regionsSegment, $blocksSegment)
 {
-    Route::get($pagesSegment, ['uses' => 'AdminController@jsGridList', 'model' => Page::class])->name('admin.pages');
-    Route::get($pageSegment.'/{'.$pageSlug.'}', ['uses' => 'AdminController@edit']);
-	Route::put($pageSegment.'/{'.$pageSlug.'}', ['uses' => 'AdminController@update']);
+    Route::get($pagesSegment, ['uses' => 'AdminPageController@jsGridList', 'model' => Page::class])->name('admin.pages');
+    Route::get($pageSegment.'/{'.$pageSlug.'}', ['uses' => 'AdminPageController@edit']);
+	Route::put($pageSegment.'/{'.$pageSlug.'}', ['uses' => 'AdminPageController@update']);
+    Route::get($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'AdminPageController@listBlocks']);
 
-    Route::get($pagesSegment.'/create', ['uses' => 'AdminController@create', 'model' => Page::class]);
-    Route::post($pagesSegment, ['uses' => 'AdminController@store', 'model' => Page::class]);
+    Route::get($pagesSegment.'/create', ['uses' => 'AdminPageController@create', 'model' => Page::class]);
+    Route::post($pagesSegment, ['uses' => 'AdminPageController@store', 'model' => Page::class]);
+
+    Route::get($layoutsSegment, ['uses' => 'AdminLayoutController@jsGridList', 'model' => PageLayout::class])->name('admin.pageLayouts');
+    Route::get($layoutSegment.'/{'.$layoutSlug.'}', ['uses' => 'AdminLayoutController@edit']);
+    Route::get($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'AdminRegionController@listRegions', 'contextualLink' => 'regions']);
+    Route::put($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'AdminRegionController@saveRegions']);
+
+    Route::get($layoutsSegment.'/create', ['uses' => 'AdminLayoutController@create', 'model' => PageLayout::class]);
+    Route::post($layoutsSegment, ['uses' => 'AdminLayoutController@store', 'model' => PageLayout::class]);
 
 });
 
-Route::group(['middleware' => 'web', 'prefix' => 'admin', 'namespace' => 'Modules\Page\Http\Controllers'], function() use ($layoutSegment,$layoutsSegment, $layoutSlug, $regionsSegment)
+/**
+ * API routes
+ */
+Route::group(['middleware' => 'api', 'prefix' => 'api'], function() use ($pagesSegment,$layoutsSegment,$layoutSegment, $regionsSegment, $layoutSlug, $blocksSegment, $pageSegment, $pageSlug)
 {
-    Route::get($layoutsSegment, ['uses' => 'AdminController@jsGridList', 'model' => PageLayout::class])->name('admin.pageLayouts');
-    Route::get($layoutSegment.'/{'.$layoutSlug.'}', ['uses' => 'AdminController@edit']);
-    Route::get($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'AdminController@relatedJsGridList', 'contextualLink' => 'regions']);
+	Route::post($pagesSegment, ['uses' => 'Modules\Core\Http\Controllers\ApiModelController@index', 'model' => Page::class]);
+    Route::delete($pagesSegment, ['uses' => 'Modules\Core\Http\Controllers\ApiModelController@destroy', 'model' => Page::class]);
+    Route::put($pagesSegment, ['uses' => 'Modules\Core\Http\Controllers\ApiModelController@update', 'model' => Page::class]);
 
-    Route::get($layoutsSegment.'/create', ['uses' => 'AdminController@create', 'model' => PageLayout::class]);
-    Route::post($layoutsSegment, ['uses' => 'AdminController@store', 'model' => PageLayout::class]);
+	Route::post($layoutsSegment, ['uses' => 'Modules\Core\Http\Controllers\ApiModelController@index', 'model' => PageLayout::class]);
+    Route::delete($layoutsSegment, ['uses' => 'Modules\Core\Http\Controllers\ApiModelController@destroy', 'model' => PageLayout::class]);
+    Route::put($layoutsSegment, ['uses' => 'Modules\Core\Http\Controllers\ApiModelController@update', 'model' => PageLayout::class]);
+	Route::post($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'Modules\Page\Http\Controllers\ApiRegionController@listRegionsForLayout']);
+
+    Route::post($blocksSegment.'/create/{provider}', ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@create']);
+    Route::post($blocksSegment.'/save', ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@save']);
+
+    Route::post($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@listBlocksForRegion']);
+    Route::put($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@updateBlocks']);
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'api', 'namespace' => 'Modules\Core\Http\Controllers'], function() use ($pagesSegment,$layoutsSegment, $regionsSegment)
-{
-	Route::post($pagesSegment, ['uses' => 'ApiModelController@index', 'model' => Page::class]);
-    Route::delete($pagesSegment, ['uses' => 'ApiModelController@destroy', 'model' => Page::class]);
-    Route::put($pagesSegment, ['uses' => 'ApiModelController@update', 'model' => Page::class]);
-
-	Route::post($layoutsSegment, ['uses' => 'ApiModelController@index', 'model' => PageLayout::class]);
-    Route::delete($layoutsSegment, ['uses' => 'ApiModelController@destroy', 'model' => PageLayout::class]);
-    Route::put($layoutsSegment, ['uses' => 'ApiModelController@update', 'model' => PageLayout::class]);
-
-	Route::post($regionsSegment, ['uses' => 'ApiModelController@index', 'model' => PageRegion::class]);
-    Route::delete($regionsSegment, ['uses' => 'ApiModelController@destroy', 'model' => PageRegion::class]);
-    Route::put($regionsSegment, ['uses' => 'ApiModelController@update', 'model' => PageRegion::class]);
-});
+/**
+ * Database pages
+ */
+Pages::loadRoutes();

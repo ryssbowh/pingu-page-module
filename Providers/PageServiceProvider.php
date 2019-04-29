@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 use Modules\Page\Entities\Page;
 use Modules\Page\Entities\PageLayout;
-use Route;
+use Route, Asset;
 
 class PageServiceProvider extends ServiceProvider
 {
@@ -29,6 +29,9 @@ class PageServiceProvider extends ServiceProvider
         $this->registerFactories();
         $this->loadViewsFrom(base_path('Modules/Page/Resources/views'), 'page');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+        Asset::container('modules')->add('core-js', 'modules/Page/js/Page.js');
+        Asset::container('modules')->add('core-css', 'modules/Page/css/Page.css');
     }
 
     /**
@@ -38,7 +41,8 @@ class PageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('page.pages', \Modules\Page\Components\Pages::class);
+        $this->app->bind('page.blocks', \Modules\Page\Components\Blocks::class);
     }
 
     /**

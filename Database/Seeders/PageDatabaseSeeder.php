@@ -2,8 +2,15 @@
 
 namespace Modules\Page\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
+use Modules\Page\BlockProviders\BlockTextProvider;
+use Modules\Page\Entities\Block;
+use Modules\Page\Entities\BlockProvider;
+use Modules\Page\Entities\BlockText;
+use Modules\Page\Entities\Page;
+use Modules\Page\Entities\PageLayout;
+use Modules\Page\Entities\PageRegion;
 
 class PageDatabaseSeeder extends Seeder
 {
@@ -16,10 +23,28 @@ class PageDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        if(!PageLayout::where(['name' => 'One column'])) {
-            PageLayout::create([
-                'name' => 'One column'
-            ]);
-        }
+        $layout = PageLayout::firstOrCreate(['name' => 'One column']);
+        $region = PageRegion::firstOrCreate(
+            ['name' => 'Content'],
+            ['width' => 100, 'height' => 400, 'page_layout_id' => $layout->id]
+        );
+        $page = Page::firstOrCreate(
+            ['name' => 'test'],
+            ['slug' => 'test1', 'page_layout_id' => $layout->id]
+        );
+
+        $provider = BlockProvider::firstOrCreate(
+            ['class' => BlockTextProvider::class],
+            ['name' => 'Text', 'block_class' => BlockText::class, 'system' => false]
+        );
+
+        $block = Block::firstOrCreate(
+            ['machineName' => 'text1'],
+            ['name' => 'Text', 'block_provider_id' => $provider->id]
+        );
+        $textBlock = BlockText::firstOrCreate(
+            ['block_id' => $block->id],
+            ['text' => 'My First Block']
+        );
     }
 }
