@@ -20,7 +20,7 @@ class Block extends BaseModel
     	return $this->hasOne(BlockProvider::class);
     }
 
-    public function load()
+    public function loadBlock()
     {
     	return $this->provider->class::getBlock($this->id);
     }
