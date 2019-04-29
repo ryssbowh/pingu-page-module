@@ -6,9 +6,9 @@ use Modules\Core\Entities\BaseModel;
 use Modules\Core\Traits\APIableModel;
 use Modules\Forms\Fields\Text;
 use Modules\Forms\Traits\Formable;
-use Modules\JsGrid\Contracts\JsGridableContract;
-use Modules\JsGrid\Fields\Text as JsGridText;
-use Modules\JsGrid\Traits\JsGridable;
+use Modules\Jsgrid\Contracts\JsGridableContract;
+use Modules\Jsgrid\Fields\Text as JsGridText;
+use Modules\Jsgrid\Traits\JsGridable;
 use Modules\Page\Entities\Block;
 use Modules\Page\Entities\PageLayout;
 
