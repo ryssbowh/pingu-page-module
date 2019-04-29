@@ -1,6 +1,6 @@
 {
-    "name": "eskimo/page",
-    "description": "",
+    "name": "pingu/page-module",
+    "description": "Page module for pingu",
     "type" : "asgard-module",
     "authors": [
         {
