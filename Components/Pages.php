@@ -1,7 +1,7 @@
 <?php
 
 namespace Modules\Page\Components;
-use Cache, Route;
+use Cache, Route, Schema;
 use Modules\Page\Entities\Page;
 
 class Pages{
@@ -11,6 +11,13 @@ class Pages{
 	 * @var string
 	 */
 	private $cache = 'pages.pages';
+
+	private $migrated = false;
+
+	public function __construct()
+	{
+		$this->migrated = Schema::hasTable('pages');
+	}
 
 	/**
 	 * Load all pages routes
@@ -33,7 +40,7 @@ class Pages{
 	public function getPages()
 	{
 		return Cache::rememberForever($this->cache, function () {
-    		return Page::all();
+    		return $this->migrated ? Page::all() : collect();
 		});
 	}
 
