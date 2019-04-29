@@ -25,7 +25,7 @@ class PageDatabaseSeeder extends Seeder
 
         $layout = PageLayout::where('name', 'One column')->get();
 
-        if(!$layout){
+        if($layout->isEmpty()){
             $layout = Pagelayout::create([
                 'name' => 'One column'
             ]);
@@ -37,9 +37,8 @@ class PageDatabaseSeeder extends Seeder
                     'page_layout_id' => $layout->id
                 ]
             );
-            $page = Page::firstOrCreate(
-                ['name' => 'test'],
-                [
+            $page = Page::create(
+                ['name' => 'test'
                     'slug' => 'test1', 
                     'page_layout_id' => $layout->id
                 ]
