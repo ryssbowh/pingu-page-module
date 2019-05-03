@@ -1,0 +1,19 @@
+{
+    "name": "Page",
+    "alias": "page",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Page\\Providers\\PageServiceProvider"
+    ],
+    "aliases": {
+        "Pages": "Modules\\Page\\Facades\\Pages",
+        "Blocks": "Modules\\Page\\Facades\\Blocks"
+    },
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
