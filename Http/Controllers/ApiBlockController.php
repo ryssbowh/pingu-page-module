@@ -29,14 +29,17 @@ class ApiBlockController extends Controller
 
 	public function listBlocksForPage(Page $page)
 	{
-		$regions = $page->regions;
+		$regions = $page->page_layout->regions;
 		$out = [];
 		foreach($regions as $region){
 			$out[$region->id] = [];
-			foreach($region->blocks as $block){
-				
+			foreach($region->getBlocks() as $block){
+				$blockBuild = $block->loadBlock()->toArray();
+				$blockBuild['provider'] = $block->block_provider->toArray();
+				$out[$region->id][] = $blockBuild;
 			}
 		}
+		return $out;
 	}
 
 	public function create(int $providerId)

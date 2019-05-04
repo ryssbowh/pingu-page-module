@@ -31,7 +31,12 @@ class PageRegion extends BaseModel implements
     }
 
     public function blocks(){
-    	return $this->belongsToMany(Block::class)->withTimestamps();
+    	return $this->belongsToMany(Block::class)->withTimestamps()->withPivot('weight');
+    }
+
+    public function getBlocks()
+    {
+        return $this->blocks()->orderBy('weight','asc')->get();
     }
 
     public static function jsGridFields()

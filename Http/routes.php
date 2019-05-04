@@ -62,7 +62,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'api'], function() use ($pagesS
     Route::post($blocksSegment.'/create/{provider}', ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@create']);
     Route::post($blocksSegment.'/save', ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@save']);
 
-    Route::post($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@listBlocksForRegion']);
+    Route::post($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@listBlocksForPage']);
     Route::put($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'Modules\Page\Http\Controllers\ApiBlockController@updateBlocks']);
 });
 

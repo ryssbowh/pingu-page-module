@@ -3,9 +3,9 @@
 namespace Modules\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Modules\Core\Http\Controllers\ApiController;
+use Modules\Core\Http\Controllers\Controller;
 
-class ApiRegionController extends ApiController
+class ApiRegionController extends Controller
 {
 
 	public function listRegionsForLayout(Request $request)

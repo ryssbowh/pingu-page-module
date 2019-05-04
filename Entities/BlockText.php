@@ -18,6 +18,8 @@ class BlockText extends BaseModel implements
 
     protected $fillable = ['name', 'text'];
 
+    protected $visible = ['id', 'block_id', 'name', 'created_at'];
+
     public static function fieldDefinitions()
     {
     	return [

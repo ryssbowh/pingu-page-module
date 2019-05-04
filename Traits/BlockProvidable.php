@@ -29,8 +29,8 @@ trait BlockProvidable
 	 * @param  Block  $block
 	 * @return Block
 	 */
-	public function loadBlock(Block $block)
+	public function loadBlock(Block $generic)
 	{
-		return $this->getBlockModel()::where($this->getBlockField(), $block->id)->first();
+		return $this->getBlockModel()::where($this->getBlockField(), $generic->id)->first();
 	}
 }

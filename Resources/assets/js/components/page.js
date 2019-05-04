@@ -11,12 +11,17 @@ const Page = (() => {
 	};
 
 	function getCreateBlockForm(provider){
-		return h.ajax('/api/blocks/create/'+provider, {'_isAdmin': true});
+		return h.post('/api/blocks/create/'+provider, {'_setTheme': 'admin'});
+	}
+
+	function listBlocksForPage(page){
+		return h.post('/api/page/'+page+'/blocks');
 	}
 
 	return {
 		init: init,
-		getCreateBlockForm: getCreateBlockForm
+		getCreateBlockForm: getCreateBlockForm,
+		listBlocksForPage: listBlocksForPage
 	};
 
 })();

@@ -17,11 +17,11 @@ class Block extends BaseModel
 
     public function block_provider()
     {
-    	return $this->hasOne(BlockProvider::class);
+    	return $this->belongsTo(BlockProvider::class);
     }
 
     public function loadBlock()
     {
-    	return $this->provider->class::getBlock($this->id);
+    	return (new $this->block_provider->class)->loadBlock($this);
     }
 }
