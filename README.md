@@ -32,4 +32,4 @@ Blocks can be added to regions in the page 'blocks' contextual link in the back 
 
 Each provider defined block has a generic block associated to it, this generic bock is saved in the table blocks.
 
-To add a new 
+It then defines a specific block in its own table, that can be retrieved using the `$genericBlock->loadblock()`
