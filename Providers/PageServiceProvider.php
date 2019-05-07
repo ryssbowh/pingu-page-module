@@ -27,7 +27,7 @@ class PageServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerFactories();
-        $this->loadViewsFrom(base_path('Pingu/Page/Resources/views'), 'page');
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'page');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         Asset::container('modules')->add('core-js', 'modules/Page/js/Page.js');
