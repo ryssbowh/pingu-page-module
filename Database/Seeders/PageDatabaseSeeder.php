@@ -11,6 +11,7 @@ use Pingu\Page\Entities\BlockText;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
+use Pingu\Permissions\Entities\Permission;
 
 class PageDatabaseSeeder extends Seeder
 {
@@ -61,5 +62,20 @@ class PageDatabaseSeeder extends Seeder
                 'name' => 'First block'
             ]);
         }
+
+        Permission::findOrCreate(['name' => 'manage pages', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']);
+
+        Permission::findOrCreate(['name' => 'manage layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'add layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'edit layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'delete layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'add regions to layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'remove regions from layouts', 'section' => 'Page']);
+
+        Permission::findOrCreate(['name' => 'add blocks to layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'delete blocks from layouts', 'section' => 'Page']);
     }
 }
