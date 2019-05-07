@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Page\BlockProviders;
+namespace Pingu\Page\BlockProviders;
 
-use Modules\Page\Contracts\BlockProviderContract;
-use Modules\Page\Entities\BlockText;
-use Modules\Page\Traits\BlockProvidable;
+use Pingu\Page\Contracts\BlockProviderContract;
+use Pingu\Page\Entities\BlockText;
+use Pingu\Page\Traits\BlockProvidable;
 
 class BlockTextProvider implements BlockProviderContract
 {

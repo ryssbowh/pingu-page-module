@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Page\Http\Controllers;
+namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Modules\Core\Http\Controllers\Controller;
+use Pingu\Core\Http\Controllers\Controller;
 
 class ApiRegionController extends Controller
 {

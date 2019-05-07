@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Page\Entities;
+namespace Pingu\Page\Entities;
 
-use Modules\Core\Entities\BaseModel;
-use Modules\Page\Entities\BlockProvider;
-use Modules\Page\Entities\PageRegion;
+use Pingu\Core\Entities\BaseModel;
+use Pingu\Page\Entities\BlockProvider;
+use Pingu\Page\Entities\PageRegion;
 
 class Block extends BaseModel
 {

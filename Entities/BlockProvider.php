@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Page\Entities;
+namespace Pingu\Page\Entities;
 
-use Modules\Core\Entities\BaseModel;
-use Modules\Page\Entities\Block;
+use Pingu\Core\Entities\BaseModel;
+use Pingu\Page\Entities\Block;
 
 class BlockProvider extends BaseModel
 {

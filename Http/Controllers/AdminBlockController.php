@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Page\Http\Controllers;
+namespace Pingu\Page\Http\Controllers;
 
 class AdminBlockController extends ModelController
 {

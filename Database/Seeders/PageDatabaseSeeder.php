@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Page\Database\Seeders;
+namespace Pingu\Page\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
-use Modules\Page\BlockProviders\BlockTextProvider;
-use Modules\Page\Entities\Block;
-use Modules\Page\Entities\BlockProvider;
-use Modules\Page\Entities\BlockText;
-use Modules\Page\Entities\Page;
-use Modules\Page\Entities\PageLayout;
-use Modules\Page\Entities\PageRegion;
+use Pingu\Page\BlockProviders\BlockTextProvider;
+use Pingu\Page\Entities\Block;
+use Pingu\Page\Entities\BlockProvider;
+use Pingu\Page\Entities\BlockText;
+use Pingu\Page\Entities\Page;
+use Pingu\Page\Entities\PageLayout;
+use Pingu\Page\Entities\PageRegion;
 
 class PageDatabaseSeeder extends Seeder
 {

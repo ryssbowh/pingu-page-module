@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Page\Contracts;
+namespace Pingu\Page\Contracts;
 
-use Modules\Page\Entities\Block;
+use Pingu\Page\Entities\Block;
 
 interface BlockProviderContract
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Page\Components;
+namespace Pingu\Page;
 use Cache, Route, Schema;
-use Modules\Page\Entities\Page;
+use Pingu\Page\Entities\Page;
 
 class Pages{
 
@@ -28,7 +28,7 @@ class Pages{
 		$pages = $this->getPages();
 		if(!$pages->isEmpty()){
 		    foreach($pages as $page){
-		        Route::get('/'.$page->slug, ['page' => $page, 'uses' => 'Modules\Page\Http\Controllers\PageController@show']);
+		        Route::get('/'.$page->slug, ['page' => $page, 'uses' => 'Pingu\Page\Http\Controllers\PageController@show']);
 		    }
 		}
 	}

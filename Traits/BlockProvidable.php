@@ -1,8 +1,8 @@
 <?php 
 
-namespace Modules\Page\Traits;
+namespace Pingu\Page\Traits;
 
-use Modules\Page\Entities\Block;
+use Pingu\Page\Entities\Block;
 
 trait BlockProvidable
 {

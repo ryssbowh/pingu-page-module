@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Page\Providers;
+namespace Pingu\Page\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
-use Modules\Page\Entities\Page;
-use Modules\Page\Entities\PageLayout;
+use Pingu\Page\Entities\Page;
+use Pingu\Page\Entities\PageLayout;
 use Route, Asset;
 
 class PageServiceProvider extends ServiceProvider
@@ -27,7 +27,7 @@ class PageServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerFactories();
-        $this->loadViewsFrom(base_path('Modules/Page/Resources/views'), 'page');
+        $this->loadViewsFrom(base_path('Pingu/Page/Resources/views'), 'page');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         Asset::container('modules')->add('core-js', 'modules/Page/js/Page.js');
@@ -41,8 +41,8 @@ class PageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('page.pages', \Modules\Page\Components\Pages::class);
-        $this->app->bind('page.blocks', \Modules\Page\Components\Blocks::class);
+        $this->app->singleton('page.pages', \Pingu\Page\Pages::class);
+        $this->app->singleton('page.blocks', \Pingu\Page\Blocks::class);
     }
 
     /**

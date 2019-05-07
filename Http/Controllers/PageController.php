@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Page\Http\Controllers;
+namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Modules\Page\Entities\Page;
-use Modules\Core\Http\Controllers\Controller;
+use Pingu\Page\Entities\Page;
+use Pingu\Core\Http\Controllers\Controller;
 
 
 class PageController extends Controller

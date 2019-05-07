@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Page\Entities;
+namespace Pingu\Page\Entities;
 
-use Modules\Core\Entities\BaseModel;
-use Modules\Forms\Fields\Text;
-use Modules\Forms\Renderers\Textarea;
-use Modules\Forms\Renderers\Text as TextRenderer;
-use Modules\Forms\Traits\Formable;
-use Modules\Page\Contracts\FormableBlockContract;
-use Modules\Page\Entities\Block;
-use Modules\Page\Traits\Blockable;
+use Pingu\Core\Entities\BaseModel;
+use Pingu\Forms\Fields\Text;
+use Pingu\Forms\Renderers\Textarea;
+use Pingu\Forms\Renderers\Text as TextRenderer;
+use Pingu\Forms\Traits\Formable;
+use Pingu\Page\Contracts\FormableBlockContract;
+use Pingu\Page\Entities\Block;
+use Pingu\Page\Traits\Blockable;
 
 class BlockText extends BaseModel implements 
 	FormableBlockContract

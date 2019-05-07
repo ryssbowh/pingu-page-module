@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\Page\Entities;
+namespace Pingu\Page\Entities;
 
-use Modules\Core\Entities\BaseModel;
-use Modules\Core\Traits\APIableModel;
-use Modules\Forms\Fields\{Text, Model};
-use Modules\Forms\Traits\Formable;
-use Modules\Jsgrid\Contracts\JsGridableContract;
-use Modules\Jsgrid\Fields\{Text as JsGridText, Model as JsGridModel};
-use Modules\Jsgrid\Traits\JsGridable;
-use Modules\Page\Entities\Block;
-use Modules\Page\Entities\PageLayout;
-use Modules\Page\Entities\PageRegion;
+use Pingu\Core\Entities\BaseModel;
+use Pingu\Core\Traits\APIableModel;
+use Pingu\Forms\Fields\{Text, Model};
+use Pingu\Forms\Traits\Formable;
+use Pingu\Jsgrid\Contracts\JsGridableContract;
+use Pingu\Jsgrid\Fields\{Text as JsGridText, Model as JsGridModel};
+use Pingu\Jsgrid\Traits\JsGridable;
+use Pingu\Page\Entities\Block;
+use Pingu\Page\Entities\PageLayout;
+use Pingu\Page\Entities\PageRegion;
 
 class Page extends BaseModel implements
     JsGridableContract
@@ -26,7 +26,7 @@ class Page extends BaseModel implements
 
     public function page_layout()
     {
-    	return $this->belongsTo("Modules\Page\Entities\PageLayout");
+    	return $this->belongsTo(PageLayout::class);
     }
 
     public static function jsGridFields()

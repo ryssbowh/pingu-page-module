@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Page\Contracts;
+namespace Pingu\Page\Contracts;
 
 class Blockprovider
 {

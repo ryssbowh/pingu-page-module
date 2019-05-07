@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Page\Http\Controllers;
+namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Modules\Core\Http\Controllers\ModelController;
-use Modules\Page\Entities\PageRegion;
-use Modules\Page\Http\Requests\LayoutRegionRequest;
+use Pingu\Core\Http\Controllers\ModelController;
+use Pingu\Page\Entities\PageRegion;
+use Pingu\Page\Http\Requests\LayoutRegionRequest;
 use Notify, ContextualLinks, Route;
 
 class AdminRegionController extends ModelController

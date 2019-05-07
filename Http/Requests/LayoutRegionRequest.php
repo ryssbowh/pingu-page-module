@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Page\Http\Requests;
+namespace Pingu\Page\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

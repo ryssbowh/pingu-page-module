@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Page\Contracts;
+namespace Pingu\Page\Contracts;
 
-use Modules\Forms\Contracts\FormableContract;
+use Pingu\Forms\Contracts\FormableContract;
 
 interface FormableBlockContract extends FormableContract
 {

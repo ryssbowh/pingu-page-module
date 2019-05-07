@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Page\Components;
+namespace Pingu\Page;
 use Cache, Route;
-use Modules\Page\Entities\BlockProvider;
-use Modules\Page\Entities\Page;
+use Pingu\Page\Entities\BlockProvider;
+use Pingu\Page\Entities\Page;
 
 class Blocks{
 

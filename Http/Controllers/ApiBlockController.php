@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Page\Http\Controllers;
+namespace Pingu\Page\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\Forms\Fields\Text;
-use Modules\Forms\FormModel;
-use Modules\Forms\Renderers\Hidden;
-use Modules\Page\Entities\Block;
-use Modules\Page\Entities\BlockProvider;
-use Modules\Page\Entities\Page;
-use Modules\Page\Entities\PageRegion;
+use Pingu\Forms\Fields\Text;
+use Pingu\Forms\FormModel;
+use Pingu\Forms\Renderers\Hidden;
+use Pingu\Page\Entities\Block;
+use Pingu\Page\Entities\BlockProvider;
+use Pingu\Page\Entities\Page;
+use Pingu\Page\Entities\PageRegion;
 
 class ApiBlockController extends Controller
 {

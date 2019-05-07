@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Page\Entities;
+namespace Pingu\Page\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 

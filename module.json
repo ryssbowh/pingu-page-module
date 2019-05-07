@@ -6,11 +6,11 @@
     "active": 1,
     "order": 1,
     "providers": [
-        "Modules\\Page\\Providers\\PageServiceProvider"
+        "Pingu\\Page\\Providers\\PageServiceProvider"
     ],
     "aliases": {
-        "Pages": "Modules\\Page\\Facades\\Pages",
-        "Blocks": "Modules\\Page\\Facades\\Blocks"
+        "Pages": "Pingu\\Page\\Facades\\Pages",
+        "Blocks": "Pingu\\Page\\Facades\\Blocks"
     },
     "files": [
         "start.php"
