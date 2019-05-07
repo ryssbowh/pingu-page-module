@@ -6,12 +6,6 @@ use Pingu\Page\Entities\Page;
 
 class Pages{
 
-	/**
-	 * Cache slug for page entities
-	 * @var string
-	 */
-	private $cache = 'pages.pages';
-
 	private $migrated = false;
 
 	public function __construct()
@@ -39,7 +33,7 @@ class Pages{
 	 */
 	public function getPages()
 	{
-		return Cache::rememberForever($this->cache, function () {
+		return Cache::rememberForever(config('page.cache-key'), function () {
     		return $this->migrated ? Page::all() : collect();
 		});
 	}
@@ -50,7 +44,7 @@ class Pages{
 	 */
 	public function emptyRouteCache()
 	{
-		Cache::forget($this->cache);
+		Cache::forget(config('page.cache-key'));
 	}
 
 }
