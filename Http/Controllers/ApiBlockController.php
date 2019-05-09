@@ -2,8 +2,10 @@
 
 namespace Pingu\Page\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Pingu\Core\Contracts\ApiModelController as ApiModelControllerContract;
+use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\ApiModelController;
 use Pingu\Forms\Fields\Text;
 use Pingu\Forms\FormModel;
 use Pingu\Forms\Renderers\Hidden;
@@ -12,8 +14,14 @@ use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 
-class ApiBlockController extends Controller
+class ApiBlockController extends BaseController implements ApiModelControllerContract
 {
+	use ApiModelController;
+
+	public function getModel(): string
+	{
+		return Block::class;
+	}
 
 	protected function createForm(BlockProvider $provider)
 	{

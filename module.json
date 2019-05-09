@@ -12,8 +12,6 @@
         "Pages": "Pingu\\Page\\Facades\\Pages",
         "Blocks": "Pingu\\Page\\Facades\\Blocks"
     },
-    "files": [
-        "start.php"
-    ],
+    "files": [],
     "requires": []
 }

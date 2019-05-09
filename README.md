@@ -4,10 +4,16 @@ Tools to create simple landing pages, define regions for them, and assign blocks
 
 Provides a block api to easily define new type of blocks.
 
+## v1.1
+- refactored controllers
+- added Routes/admin.php
+
 ## v1.0.12 Integrated permissions
 ## v1.0.10 First working version, added README
 
 ## TODO
+
+- [ ] Define a model block provider
 
 ## Providers
 

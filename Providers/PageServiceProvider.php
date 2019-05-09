@@ -43,6 +43,7 @@ class PageServiceProvider extends ServiceProvider
     {
         $this->app->singleton('page.pages', \Pingu\Page\Pages::class);
         $this->app->singleton('page.blocks', \Pingu\Page\Blocks::class);
+        $this->app->register(RouteServiceProvider::class);
     }
 
     /**

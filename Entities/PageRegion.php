@@ -5,17 +5,17 @@ namespace Pingu\Page\Entities;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\APIableModel;
 use Pingu\Forms\Fields\Text;
-use Pingu\Forms\Traits\Formable;
-use Pingu\Jsgrid\Contracts\JsGridableContract;
+use Pingu\Forms\Traits\FormableModel;
+use Pingu\Jsgrid\Contracts\JsGridableModel as JsGridableModelContract;
 use Pingu\Jsgrid\Fields\Text as JsGridText;
-use Pingu\Jsgrid\Traits\JsGridable;
+use Pingu\Jsgrid\Traits\JsGridableModel;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\PageLayout;
 
 class PageRegion extends BaseModel implements
-    JsGridableContract
+    JsGridableModelContract
 {
-	use JsGridable, Formable, APIableModel;
+	use JsGridableModel, FormableModel, APIableModel;
 
     protected $fillable = ['name', 'width', 'height'];
     protected $visible = ['id','name','width','height'];

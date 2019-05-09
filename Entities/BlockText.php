@@ -4,9 +4,9 @@ namespace Pingu\Page\Entities;
 
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Forms\Fields\Text;
-use Pingu\Forms\Renderers\Textarea;
 use Pingu\Forms\Renderers\Text as TextRenderer;
-use Pingu\Forms\Traits\Formable;
+use Pingu\Forms\Renderers\Textarea;
+use Pingu\Forms\Traits\FormableModel;
 use Pingu\Page\Contracts\FormableBlockContract;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Traits\Blockable;
@@ -14,7 +14,7 @@ use Pingu\Page\Traits\Blockable;
 class BlockText extends BaseModel implements 
 	FormableBlockContract
 {
-	use Formable, Blockable;
+	use FormableModel, Blockable;
 
     protected $fillable = ['name', 'text'];
 

@@ -3,13 +3,24 @@
 namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Pingu\Core\Http\Controllers\ModelController;
+use Notify, ContextualLinks, Route;
+use Pingu\Core\Contracts\ModelController as ModelControllerContract;
+use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\ModelController;
+use Pingu\Jsgrid\Contracts\JsGridController as JsGridControllerContract;
+use Pingu\Jsgrid\Traits\JsGridController;
 use Pingu\Page\Entities\PageRegion;
 use Pingu\Page\Http\Requests\LayoutRegionRequest;
-use Notify, ContextualLinks, Route;
 
-class AdminRegionController extends ModelController
+class RegionController  extends BaseController implements ModelControllerContract, JsGridControllerContract
 {
+    use ModelController, JsGridController;
+
+	public function getModel():string
+	{
+		return PageRegion::class;
+	}
+	
 	public function listRegions(Request $request)
 	{
 		$layout = $request->route('PageLayout');
