@@ -1,6 +1,7 @@
 <?php
 
 use Pingu\Page\Entities\Block;
+use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
@@ -16,28 +17,20 @@ use Pingu\Page\Entities\PageRegion;
 |
 */
 
-$pageSegment = Page::urlSegment();
-$pagesSegment = Page::urlSegments();
-$pageSlug = Page::routeSlug();
-$layoutSegment = PageLayout::urlSegment();
-$layoutsSegment = PageLayout::urlSegments();
-$layoutSlug = PageLayout::routeSlug();
-$regionSegment = PageRegion::urlSegment();
-$regionsSegment = PageRegion::urlSegments();
-$regionSlug = PageRegion::routeSlug();
-$blocksSegment = Block::urlSegments();
+Route::get(Page::getApiUri('index'), ['uses' => 'ApiPageController@index']);
+Route::delete(Page::getApiUri('delete'), ['uses' => 'ApiPageController@destroy']);
+Route::put(Page::getApiUri('update'), ['uses' => 'ApiPageController@update']);
 
-Route::post($pagesSegment, ['uses' => 'ApiPageController@index']);
-Route::delete($pagesSegment, ['uses' => 'ApiPageController@destroy']);
-Route::put($pagesSegment, ['uses' => 'ApiPageController@update']);
+Route::get(PageLayout::getApiUri('index'), ['uses' => 'ApiLayoutController@index']);
+Route::delete(PageLayout::getApiUri('delete'), ['uses' => 'ApiLayoutController@destroy']);
+Route::put(PageLayout::getApiUri('update'), ['uses' => 'ApiLayoutController@update']);
 
-Route::post($layoutsSegment, ['uses' => 'ApiLayoutController@index']);
-Route::delete($layoutsSegment, ['uses' => 'ApiLayoutController@destroy']);
-Route::put($layoutsSegment, ['uses' => 'ApiLayoutController@update']);
-Route::post($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'ApiRegionController@listRegionsForLayout']);
+Route::get(PageRegion::getApiUri('create'), ['uses' => 'ApiRegionController@create']);
+Route::post(PageRegion::getApiUri('store'), ['uses' => 'ApiRegionController@store']);
+Route::patch(PageRegion::getApiUri('patch'), ['uses' => 'ApiRegionController@patch']);
+Route::delete(PageRegion::getApiUri('delete'), ['uses' => 'ApiRegionController@destroy']);
 
-Route::post($blocksSegment.'/create/{provider}', ['uses' => 'ApiBlockController@create']);
-Route::post($blocksSegment.'/save', ['uses' => 'ApiBlockController@save']);
-
-Route::post($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'ApiBlockController@listBlocksForPage']);
-Route::put($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'ApiBlockController@updateBlocks']);
+Route::get(Block::getApiUri('create'), ['uses' => 'ApiBlockController@create']);
+Route::put(Block::getApiUri('store'), ['uses' => 'ApiBlockController@store']);
+Route::get(Block::getApiUri('index'), ['uses' => 'ApiBlockController@index']);
+Route::put(Block::getApiUri('update'), ['uses' => 'ApiBlockController@update']);

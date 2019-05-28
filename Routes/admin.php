@@ -16,47 +16,33 @@ use Pingu\Page\Entities\PageRegion;
 |
 */
 
-$pageSegment = Page::urlSegment();
-$pagesSegment = Page::urlSegments();
-$pageSlug = Page::routeSlug();
-$layoutSegment = PageLayout::urlSegment();
-$layoutsSegment = PageLayout::urlSegments();
-$layoutSlug = PageLayout::routeSlug();
-$regionSegment = PageRegion::urlSegment();
-$regionsSegment = PageRegion::urlSegments();
-$regionSlug = PageRegion::routeSlug();
-$blocksSegment = Block::urlSegments();
-
-Route::get($pagesSegment, ['uses' => 'PageController@jsGridList'])
+Route::get(Page::getAdminUri('index'), ['uses' => 'PageController@index'])
 	->name('page.admin.pages')
 	->middleware('can:manage pages');
-Route::get($pageSegment.'/{'.$pageSlug.'}', ['uses' => 'PageController@edit'])
+Route::get(Page::getAdminUri('edit'), ['uses' => 'PageController@edit'])
 	->middleware('can:edit pages');
-Route::put($pageSegment.'/{'.$pageSlug.'}', ['uses' => 'PageController@update'])
+Route::put(Page::getAdminUri('update'), ['uses' => 'PageController@update'])
 	->middleware('can:edit pages');
-Route::get($pageSegment.'/{'.$pageSlug.'}/'.$blocksSegment, ['uses' => 'PageController@listBlocks'])
-	->middleware('can:manage pages');
+Route::get(Block::getAdminUri('index'), ['uses' => 'PageController@listBlocks'])
+	->middleware('can:view pages blocks');
 
-Route::get($pagesSegment.'/create', ['uses' => 'PageController@create'])
+Route::get(Page::getAdminUri('create'), ['uses' => 'PageController@create'])
 	->name('page.admin.pages.create')
 	->middleware('can:add pages');
-Route::post($pagesSegment, ['uses' => 'PageController@store'])
+Route::post(Page::getAdminUri('store'), ['uses' => 'PageController@store'])
 	->middleware('can:add pages');
 
-Route::get($layoutsSegment, ['uses' => 'LayoutController@jsGridList'])
+Route::get(PageLayout::getAdminUri('index'), ['uses' => 'LayoutController@index'])
 	->name('page.admin.layouts')
 	->middleware('can:manage layouts');
-Route::get($layoutSegment.'/{'.$layoutSlug.'}', ['uses' => 'LayoutController@edit'])
+Route::get(PageLayout::getAdminUri('edit'), ['uses' => 'LayoutController@edit'])
 	->middleware('can:edit layouts');
 
-Route::get($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'RegionController@listRegions', 'contextualLink' => 'regions'])
-	->middleware('can:manage layouts');
-Route::put($layoutSegment.'/{'.$layoutSlug.'}/'.$regionsSegment, ['uses' => 'RegionController@saveRegions'])
-	->middleware('can:add regions to layouts')
-	->middleware('can:remove regions from layouts');
+Route::get(PageRegion::getAdminUri('index'), ['uses' => 'RegionController@listRegions', 'contextualLink' => 'regions'])
+	->middleware('can:view layouts regions');
 
-Route::get($layoutsSegment.'/create', ['uses' => 'LayoutController@create'])
+Route::get(PageLayout::getAdminUri('create'), ['uses' => 'LayoutController@create'])
 	->name('page.admin.layouts.create')
 	->middleware('can:add layouts');
-Route::post($layoutsSegment, ['uses' => 'LayoutController@store'])
+Route::post(PageLayout::getAdminUri('store'), ['uses' => 'LayoutController@store'])
 	->middleware('can:add layouts');

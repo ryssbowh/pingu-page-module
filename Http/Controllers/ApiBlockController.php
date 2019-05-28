@@ -23,19 +23,24 @@ class ApiBlockController extends BaseController implements ApiModelControllerCon
 		return Block::class;
 	}
 
-	protected function createForm(BlockProvider $provider)
+	public function create(Request $request): array
 	{
-		$form = new FormModel(['url' => '/api/' . Block::urlSegments() . '/save'], ['submit' => ['Save', ['class' => 'btn btn-primary']], 'view' => 'forms.modal', 'title' => 'Add a ' . $provider->name . ' block'], $provider->block_class);
+		$provider = $request->route()->parameter(BlockProvider::routeSlug());
+		$form = new FormModel(
+			['url' => '/api/' . Block::routeSlugs() . '/save'], 
+			['submit' => ['Save'], 'view' => 'forms.modal', 'title' => 'Add a ' . $provider->name . ' block'], 
+			$provider->block_class
+		);
 		$form->addField('provider',[
 			'type' => Text::class,
 			'default' => $provider->id,
 			'renderer' => Hidden::class
 		]);
 		$form->end();
-		return $form;
+		return ['form' => $form->renderAsString()];
 	}
 
-	public function listBlocksForPage(Page $page)
+	public function index(Page $page)
 	{
 		$regions = $page->page_layout->regions;
 		$out = [];
@@ -50,20 +55,12 @@ class ApiBlockController extends BaseController implements ApiModelControllerCon
 		return $out;
 	}
 
-	public function create(int $providerId)
-	{
-		$provider = BlockProvider::findOrFail($providerId);
-		return [
-			'form' => $this->createForm($provider)->renderAsString()
-		];
-	}
-
-	public function save(Request $request)
+	public function store(Request $request): array
 	{
 		$post = $request->post();
 		$provider = BlockProvider::findOrFail($post['provider']);
 		$model = new $provider->block_class;
-		$validated = $model->validateForm($request, $model->addFormFields());
+		$validated = $model->validateForm($post, $model->addFormFields());
 
 		Block::unguard();
 		$model::unguard();
@@ -74,10 +71,10 @@ class ApiBlockController extends BaseController implements ApiModelControllerCon
 		$model->block_id = $genericBlock->id;
 		$model->save();
 
-		return ['block' => $model];
+		return $this->onStoreSuccess($request, $model);
 	}
 
-	public function updateBlocks(Request $request)
+	public function update(Request $request)
 	{
 		$regions = $request->post()['regions'];
 		foreach($regions as $row){

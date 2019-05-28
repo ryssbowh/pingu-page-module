@@ -2,8 +2,11 @@
 
 namespace Pingu\Page\Entities;
 
+use Pingu\Core\Contracts\AdminableModel as AdminableModelContract;
+use Pingu\Core\Contracts\HasContextualLinks;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\APIableModel;
+use Pingu\Core\Traits\AdminableModel;
 use Pingu\Forms\Fields\Text;
 use Pingu\Forms\Traits\FormableModel;
 use Pingu\Jsgrid\Contracts\JsGridableModel as JsGridableModelContract;
@@ -13,13 +16,28 @@ use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 
 class PageLayout extends BaseModel implements
-    JsGridableModelContract
+    JsGridableModelContract, HasContextualLinks, AdminableModelContract
 {
-    use JsGridableModel, FormableModel, APIableModel;
+    use JsGridableModel, FormableModel, APIableModel, AdminableModel;
 
     protected $fillable = ['name'];
 
     protected $visible = ['id', 'name'];
+
+    public static $fieldDefinitions = [
+        'name' => [
+            'type' => Text::class,
+            'label' => 'Name'
+        ]
+    ];
+
+    public static $validationRules = [
+        'name' => 'required|unique:page_layouts,name,{id}'
+    ];
+
+    public static $editFields = ['name'];
+
+    public static $addFields = ['name'];
 
     public static function friendlyName()
     {
@@ -31,7 +49,8 @@ class PageLayout extends BaseModel implements
     	return $this->hasMany(Page::class);
     }
 
-    public function regions(){
+    public function regions()
+    {
     	return $this->hasMany(PageRegion::class);
     }
 
@@ -44,34 +63,17 @@ class PageLayout extends BaseModel implements
     	];
     }
 
-    public static function fieldDefinitions()
-    {
-        return [
-            'name' => [
-                'type' => Text::class,
-                'label' => 'Name'
-            ]
-        ];
-    }
-
-    public function validationRules()
-    {
-        return [
-            'name' => 'required|unique:page_layouts,name,'.$this->id
-        ];
-    }
-
-    public function getContextualLinks()
+    public function getContextualLinks(): array
     {
         return [
             'edit' => [
                 'title' => 'Edit',
-                'url' => '/admin/'.$this::urlSegment().'/'.$this->id
+                'url' => $this::transformAdminUri('edit', [$this->id], true)
             ],
             'regions' => [
                 'model' => PageRegion::class,
                 'title' => 'Regions',
-                'url' => '/admin/'.$this::urlSegment().'/'.$this->id.'/'.PageRegion::urlSegments()
+                'url' => '/admin/'.$this::routeSlug().'/'.$this->id.'/'.PageRegion::routeSlugs()
             ]
         ];
     }

@@ -4,6 +4,8 @@ namespace Pingu\Page\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Pingu\Menu\Entities\Menu;
+use Pingu\Menu\Entities\MenuItem;
 use Pingu\Page\BlockProviders\BlockTextProvider;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\BlockProvider;
@@ -63,19 +65,45 @@ class PageDatabaseSeeder extends Seeder
             ]);
         }
 
-        Permission::findOrCreate(['name' => 'manage pages', 'section' => 'Page']);
+        $perm1 = Permission::findOrCreate(['name' => 'manage pages', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']);
 
-        Permission::findOrCreate(['name' => 'manage layouts', 'section' => 'Page']);
+        $perm2 = Permission::findOrCreate(['name' => 'manage layouts', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'add layouts', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'edit layouts', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'delete layouts', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'add regions to layouts', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'remove regions from layouts', 'section' => 'Page']);
+        
+        Permission::findOrCreate(['name' => 'view layouts regions', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'manage layouts regions', 'section' => 'Page']);
 
-        Permission::findOrCreate(['name' => 'add blocks to layouts', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'delete blocks from layouts', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'view pages blocks', 'section' => 'Page']);
+        Permission::findOrCreate(['name' => 'manage pages blocks', 'section' => 'Page']);
+
+        $menu = Menu::findByName('admin-menu');
+        $content = MenuItem::where(['name' => 'Content', 'url' => '', 'parent_id' => null])->first();
+        if(!$content){
+            $content = MenuItem::create([
+                'name' => 'Content', 
+                'url' => '',
+                'active' => 1,
+                'weight' => 3
+            ], $menu);
+            MenuItem::create([
+                'name' => 'Pages',
+                'url' => 'page.admin.pages',
+                'active' => 1,
+                'weight' => 1,
+                'permission_id' => $perm1->id
+            ], $menu, $content);
+            MenuItem::create([
+                'name' => 'Layouts',
+                'weight' => 2,
+                'active' => 1,
+                'url' => 'page.admin.layouts',
+                'permission_id' => $perm2->id
+            ], $menu, $content);
+        }
     }
 }

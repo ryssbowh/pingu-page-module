@@ -20,28 +20,31 @@ class BlockText extends BaseModel implements
 
     protected $visible = ['id', 'block_id', 'name', 'created_at'];
 
-    public static function fieldDefinitions()
-    {
-    	return [
-    		'text' => [
-    			'type' => Text::class,
-    			'renderer' => Textarea::class,
-    			'attributes' => ['required' => true],
-    		],
-    		'name' => [
-    			'type' => Text::class,
-    			'renderer' => TextRenderer::class,
-    			'attributes' => ['required' => true],
-    		]
-    	];
-    }
+    public static $fieldDefinitions = [
+        'text' => [
+            'type' => Text::class,
+            'renderer' => Textarea::class,
+            'attributes' => ['required' => true],
+        ],
+        'name' => [
+            'type' => Text::class,
+            'renderer' => TextRenderer::class,
+            'attributes' => ['required' => true],
+        ]
+    ];
 
-    public function validationRules()
-    {
-    	return [
-    		'text' => 'required',
-    		'name' => 'required'
-    	];
-    }
+    public static $validationRules = [
+		'text' => 'required',
+		'name' => 'required'
+	];
+
+    public static $validationMessages = [
+        'text.required' => 'Text is required',
+        'name.required' => 'Name is required'
+    ];
+
+    public static $addFields = ['name', 'text'];
+
+    public static $editFields = ['name', 'text'];
 
 }

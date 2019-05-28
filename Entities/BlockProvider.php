@@ -10,6 +10,10 @@ class BlockProvider extends BaseModel
     protected $fillable = [];
     protected $visible = ['id', 'class', 'block_class', 'system', 'name'];
 
+    public static function routeSlug(){
+    	return 'provider';
+    }
+
     public function blocks()
     {
     	return $this->hasMany(Block::class);

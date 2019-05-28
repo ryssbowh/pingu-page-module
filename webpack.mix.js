@@ -10,7 +10,7 @@ var publicPath = path.resolve(__dirname,'../../public/modules/'+name);
 mix.webpackConfig({
   resolve: {
     alias: {
-      'page': path.resolve(assetPath + '/js/components', './page')
+      'pingu-page': path.resolve(assetPath + '/js/components', './page')
     }
   }
 });

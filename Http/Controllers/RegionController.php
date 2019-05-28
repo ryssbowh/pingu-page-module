@@ -9,6 +9,7 @@ use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Core\Traits\ModelController;
 use Pingu\Jsgrid\Contracts\JsGridController as JsGridControllerContract;
 use Pingu\Jsgrid\Traits\JsGridController;
+use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
 use Pingu\Page\Http\Requests\LayoutRegionRequest;
 
@@ -21,14 +22,15 @@ class RegionController  extends BaseController implements ModelControllerContrac
 		return PageRegion::class;
 	}
 	
-	public function listRegions(Request $request)
+	public function listRegions(Request $request, PageLayout $layout)
 	{
-		$layout = $request->route('PageLayout');
-		$regions = $layout->regions;
-		ContextualLinks::addLinks($layout->getContextualLinks());
+		ContextualLinks::addModelLinks($layout);
 		return view('page::list_regions')->with([
 			'layout' => $layout,
-			'formUrl' => $request->path(),
+			'regions' => $layout->regions,
+			'addRegionUri' => PageRegion::transformApiUri('create', [$layout->id], true),
+			'saveRegionUri' => PageRegion::transformApiUri('patch', [$layout->id], true),
+			'deleteRegionUri' => PageRegion::getApiUri('delete', true)
 		]);
 	}
 

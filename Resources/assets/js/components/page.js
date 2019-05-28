@@ -1,4 +1,4 @@
-import * as h from 'helpers';
+import * as h from 'pingu-helpers';
 
 const Page = (() => {
 
@@ -10,8 +10,8 @@ const Page = (() => {
 		console.log('Page initialized');
 	};
 
-	function getCreateBlockForm(provider){
-		return h.post('/api/blocks/create/'+provider, {'_setTheme': 'admin'});
+	function getCreateBlockForm(provider, theme){
+		return h.get('/api/blocks/create/'+provider, {'_theme': theme});
 	}
 
 	function listBlocksForPage(page){

@@ -2,7 +2,9 @@
 
 namespace Pingu\Page\Contracts;
 
-interface FormableBlockContract
+use Pingu\Forms\Contracts\FormableModel;
+
+interface FormableBlockContract extends FormableModel
 {
 	
 }

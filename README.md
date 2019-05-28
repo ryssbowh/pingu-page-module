@@ -7,6 +7,13 @@ Provides a block api to easily define new type of blocks.
 ## v1.1
 - refactored controllers
 - added Routes/admin.php
+- refactored routes with url slugs
+- added pingu-page as js module
+- adaptation to jsgrid refactoring
+- adaptation to Model controller refactoring
+- adaptation to Adminable interface
+- added menu items in seeder
+- 
 
 ## v1.0.12 Integrated permissions
 ## v1.0.10 First working version, added README

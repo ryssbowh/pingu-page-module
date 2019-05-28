@@ -4,6 +4,7 @@ namespace Pingu\Page\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
@@ -31,6 +32,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model(Page::routeSlug(), Page::class);
         Route::model(PageLayout::routeSlug(), PageLayout::class);
         Route::model(PageRegion::routeSlug(), PageRegion::class);
+        Route::model(BlockProvider::routeSlug(), BlockProvider::class);
     }
 
     /**
