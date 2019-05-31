@@ -32,18 +32,20 @@ class InstallPage extends Migration
 
         Schema::create('block_providers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('class');
-            $table->string('block_class');
-            $table->string('name');
             $table->boolean('system');
+            $table->string('name');
+            $table->string('class');
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('blocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('block_provider_id')->unsigned()->index();
-            $table->foreign('block_provider_id')->references('id')->on('block_providers');
+            $table->boolean('system');
+            $table->integer('instance_id')->unsigned()->index();
+            $table->string('instance_type');
+            $table->integer('provider_id')->unsigned()->index();
+            $table->foreign('provider_id')->references('id')->on('block_providers');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -71,8 +73,6 @@ class InstallPage extends Migration
 
         Schema::create('block_texts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('block_id')->unsigned()->index();;
-            $table->foreign('block_id')->references('id')->on('blocks')->onDelete('cascade');
             $table->text('text');
             $table->text('name');
             $table->timestamps();

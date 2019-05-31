@@ -2,6 +2,7 @@
 
 namespace Pingu\Page\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use Notify, ContextualLinks, Blocks;
 use Pingu\Core\Contracts\ModelController as ModelControllerContract;
@@ -10,9 +11,9 @@ use Pingu\Core\Traits\ModelController;
 use Pingu\Forms\Contracts\FormableModel;
 use Pingu\Jsgrid\Contracts\JsGridController as JsGridControllerContract;
 use Pingu\Jsgrid\Traits\JsGridController;
+use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
-use Auth;
 
 class PageController extends BaseController implements ModelControllerContract, JsGridControllerContract
 {
@@ -38,13 +39,14 @@ class PageController extends BaseController implements ModelControllerContract, 
 
 	public function listBlocks(Request $request, Page $page)
 	{
-		$providers = BlockProvider::where('system', 0)->get();
 		ContextualLinks::addModelLinks($page);
 		return view('page::page_blocks')->with([
 			'page' => $page,
 			'layout' => $page->page_layout,
 			'regions' => $page->page_layout->regions,
-			'providers' => Blocks::getByProvider()
+			'providers' => BlockProvider::all(),
+			'blockClass' => "Pingu\Page\Entities\Block",
+			'blockIndexUri' => Block::transformAjaxUri('index', [$page->id], true)
 		]);
 	}
 

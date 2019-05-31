@@ -16,6 +16,6 @@ class BlockProvider extends BaseModel
 
     public function blocks()
     {
-    	return $this->hasMany(Block::class);
+    	return $this->hasMany(Block::class, 'provider_id');
     }
 }

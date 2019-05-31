@@ -5,7 +5,7 @@ namespace Pingu\Page\Entities;
 use Pingu\Core\Contracts\AdminableModel as AdminableModelContract;
 use Pingu\Core\Contracts\HasContextualLinks;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Traits\APIableModel;
+use Pingu\Core\Traits\AjaxableModel;
 use Pingu\Core\Traits\AdminableModel;
 use Pingu\Forms\Fields\{Text, Model};
 use Pingu\Forms\Traits\FormableModel;
@@ -19,7 +19,7 @@ use Pingu\Page\Entities\PageRegion;
 class Page extends BaseModel implements
     JsGridableModelContract, HasContextualLinks, AdminableModelContract
 {
-	use JsGridableModel, FormableModel, APIableModel, AdminableModel;
+	use JsGridableModel, FormableModel, AjaxableModel, AdminableModel;
 
     protected $fillable = ['name', 'slug', 'page_layout'];
 

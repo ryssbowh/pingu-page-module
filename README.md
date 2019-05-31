@@ -4,6 +4,11 @@ Tools to create simple landing pages, define regions for them, and assign blocks
 
 Provides a block api to easily define new type of blocks.
 
+## v1.1.2
+- renamed all api to ajax
+- block use morphTo
+- edit block functionnality
+
 ## v1.1
 - refactored controllers
 - added Routes/admin.php
@@ -46,4 +51,4 @@ Blocks can be added to regions in the page 'blocks' contextual link in the back 
 
 Each provider defined block has a generic block associated to it, this generic bock is saved in the table blocks.
 
-It then defines a specific block in its own table, that can be retrieved using the `$genericBlock->loadBlock()`
+It then defines a specific block in its own table, that can be retrieved using the `$block->instance` through [laravel morphing](https://laravel.com/docs/5.8/eloquent-relationships#polymorphic-relationships)

@@ -4,7 +4,7 @@ namespace Pingu\Page\Entities;
 
 use Pingu\Core\Contracts\AdminableModel as AdminableModelContract;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Traits\APIableModel;
+use Pingu\Core\Traits\AjaxableModel;
 use Pingu\Core\Traits\AdminableModel;
 use Pingu\Forms\Fields\Model;
 use Pingu\Forms\Fields\Number;
@@ -20,7 +20,7 @@ use Pingu\Page\Entities\PageLayout;
 class PageRegion extends BaseModel implements
     JsGridableModelContract, AdminableModelContract
 {
-	use JsGridableModel, FormableModel, APIableModel, AdminableModel;
+	use JsGridableModel, FormableModel, AjaxableModel, AdminableModel;
 
     protected $fillable = ['name', 'width', 'height','page_layout'];
 
@@ -73,12 +73,7 @@ class PageRegion extends BaseModel implements
 
     public function blocks()
     {
-    	return $this->belongsToMany(Block::class)->withTimestamps()->withPivot('weight');
-    }
-
-    public function getBlocks()
-    {
-        return $this->blocks()->orderBy('weight','asc')->get();
+    	return $this->belongsToMany(Block::class)->withTimestamps()->withPivot('weight')->orderBy('weight','asc');
     }
 
     public static function jsGridFields()
@@ -95,28 +90,28 @@ class PageRegion extends BaseModel implements
         return PageLayout::routeSlug().'/{'.PageLayout::routeSlug().'}/'.self::routeSlugs();
     }
 
-    public static function apiIndexUri()
+    public static function ajaxIndexUri()
     {
         return PageLayout::routeSlug().'/{'.PageLayout::routeSlug().'}/'.self::routeSlugs();
     }
 
-    public static function apiPatchUri()
+    public static function ajaxPatchUri()
     {
-        return static::apiIndexUri();
+        return static::ajaxIndexUri();
     }
 
-    public static function apiDeleteUri()
+    public static function ajaxDeleteUri()
     {
         return static::routeSlug().'/{'.static::routeSlug().'}';
     }
 
-    public static function apiStoreUri()
+    public static function ajaxStoreUri()
     {
-        return static::apiIndexUri();
+        return static::ajaxIndexUri();
     }
 
-    public static function apiCreateUri()
+    public static function ajaxCreateUri()
     {
-        return static::apiIndexUri().'/create';
+        return static::ajaxIndexUri().'/create';
     }
 }

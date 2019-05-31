@@ -4,6 +4,7 @@ namespace Pingu\Page\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
@@ -33,6 +34,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model(PageLayout::routeSlug(), PageLayout::class);
         Route::model(PageRegion::routeSlug(), PageRegion::class);
         Route::model(BlockProvider::routeSlug(), BlockProvider::class);
+        Route::model(Block::routeSlug(), Block::class);
     }
 
     /**
@@ -42,7 +44,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->mapAjaxRoutes();
 
         $this->mapWebRoutes();
 
@@ -79,17 +81,17 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "api" routes for the application.
+     * Define the "ajax" routes for the application.
      *
-     * These routes are typically stateless.
+     * These routes all receive session state, CSRF protection, etc.
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapAjaxRoutes()
     {
-        Route::prefix('api')
-            ->middleware('api')
+        Route::prefix('ajax')
+            ->middleware('ajax')
             ->namespace($this->namespace)
-            ->group(__DIR__ . '/../Routes/api.php');
+            ->group(__DIR__ . '/../Routes/ajax.php');
     }
 }

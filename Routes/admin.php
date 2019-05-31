@@ -18,7 +18,7 @@ use Pingu\Page\Entities\PageRegion;
 
 Route::get(Page::getAdminUri('index'), ['uses' => 'PageController@index'])
 	->name('page.admin.pages')
-	->middleware('can:manage pages');
+	->middleware('can:view pages');
 Route::get(Page::getAdminUri('edit'), ['uses' => 'PageController@edit'])
 	->middleware('can:edit pages');
 Route::put(Page::getAdminUri('update'), ['uses' => 'PageController@update'])
@@ -34,7 +34,7 @@ Route::post(Page::getAdminUri('store'), ['uses' => 'PageController@store'])
 
 Route::get(PageLayout::getAdminUri('index'), ['uses' => 'LayoutController@index'])
 	->name('page.admin.layouts')
-	->middleware('can:manage layouts');
+	->middleware('can:view layouts');
 Route::get(PageLayout::getAdminUri('edit'), ['uses' => 'LayoutController@edit'])
 	->middleware('can:edit layouts');
 

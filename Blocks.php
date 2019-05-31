@@ -12,7 +12,7 @@ class Blocks{
 		$out = [];
 		foreach(BlockProvider::all() as $provider){
 			$array = $provider->toArray();
-			$array['blocks'] = (new $provider->class)->getBlocks();
+			$array['blocks'] = $provider->blocks;
 			$out[] = $array;
 		}
 		return $out;

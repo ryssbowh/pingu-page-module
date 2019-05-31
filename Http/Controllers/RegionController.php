@@ -28,9 +28,9 @@ class RegionController  extends BaseController implements ModelControllerContrac
 		return view('page::list_regions')->with([
 			'layout' => $layout,
 			'regions' => $layout->regions,
-			'addRegionUri' => PageRegion::transformApiUri('create', [$layout->id], true),
-			'saveRegionUri' => PageRegion::transformApiUri('patch', [$layout->id], true),
-			'deleteRegionUri' => PageRegion::getApiUri('delete', true)
+			'addRegionUri' => PageRegion::transformAjaxUri('create', [$layout->id], true),
+			'saveRegionUri' => PageRegion::transformAjaxUri('patch', [$layout->id], true),
+			'deleteRegionUri' => PageRegion::getAjaxUri('delete', true)
 		]);
 	}
 

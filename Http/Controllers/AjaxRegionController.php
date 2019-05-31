@@ -3,18 +3,18 @@
 namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Pingu\Core\Contracts\ApiModelController as ApiModelControllerContract;
+use Pingu\Core\Contracts\AjaxModelController as AjaxModelControllerContract;
 use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\ApiModelController;
+use Pingu\Core\Traits\AjaxModelController;
 use Pingu\Forms\Contracts\FormableModel;
 use Pingu\Forms\Form;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ApiRegionController extends BaseController implements ApiModelControllerContract
+class AjaxRegionController extends BaseController implements AjaxModelControllerContract
 {
-	use ApiModelController;
+	use AjaxModelController;
 
 	public function getModel(): string
 	{
@@ -27,7 +27,7 @@ class ApiRegionController extends BaseController implements ApiModelControllerCo
 	protected function getStoreUri(Request $request): string
 	{
 		$layout = $request->route()->parameter(PageLayout::routeSlug());
-		return PageRegion::transformApiUri('store', [$layout->id], true);
+		return PageRegion::transformAjaxUri('store', [$layout->id], true);
 	}
 
 	/**

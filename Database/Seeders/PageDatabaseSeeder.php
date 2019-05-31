@@ -41,36 +41,36 @@ class PageDatabaseSeeder extends Seeder
                 'page_layout_id' => $layout->id
             ]);
 
+            $provider = BlockProvider::create([
+                'name' => 'Text',
+                'system' => false,
+                'class' => BlockText::class
+            ]);
+
             $page = Page::create([
                 'name' => 'test',
                 'slug' => 'test1', 
                 'page_layout_id' => $layout->id
             ]);
 
-            $provider = BlockProvider::create([
-                'class' => BlockTextProvider::class,
-                'name' => 'Text', 
-                'block_class' => BlockText::class, 
+            $block = new Block([
                 'system' => false
             ]);
-
-            $block = Block::create([
-                'block_provider_id' => $provider->id
-            ]);
+            $block->provider()->associate($provider);
 
             $textBlock = BlockText::create([
-                'block_id' => $block->id,
                 'text' => 'My First Block',
                 'name' => 'First block'
             ]);
+            $textBlock->block()->save($block);
         }
 
-        $perm1 = Permission::findOrCreate(['name' => 'manage pages', 'section' => 'Page']);
+        $perm1 = Permission::findOrCreate(['name' => 'view pages', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']);
 
-        $perm2 = Permission::findOrCreate(['name' => 'manage layouts', 'section' => 'Page']);
+        $perm2 = Permission::findOrCreate(['name' => 'view layouts', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'add layouts', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'edit layouts', 'section' => 'Page']);
         Permission::findOrCreate(['name' => 'delete layouts', 'section' => 'Page']);

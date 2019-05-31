@@ -18,7 +18,7 @@ class BlockText extends BaseModel implements
 
     protected $fillable = ['name', 'text'];
 
-    protected $visible = ['id', 'block_id', 'name', 'created_at'];
+    protected $visible = ['id', 'text', 'name'];
 
     public static $fieldDefinitions = [
         'text' => [
@@ -46,5 +46,10 @@ class BlockText extends BaseModel implements
     public static $addFields = ['name', 'text'];
 
     public static $editFields = ['name', 'text'];
+
+    public function block()
+    {
+        return $this->morphOne(Block::class, 'instance');
+    }
 
 }
