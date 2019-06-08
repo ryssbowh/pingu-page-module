@@ -2,53 +2,97 @@
 
 namespace Pingu\Page\Entities;
 
-use Pingu\Core\Contracts\AdminableModel as AdminableModelContract;
-use Pingu\Core\Contracts\HasContextualLinks;
+use Pingu\Core\Contracts\Models\HasAdminRoutesContract;
+use Pingu\Core\Contracts\Models\HasContextualLinksContract;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Traits\AjaxableModel;
-use Pingu\Core\Traits\AdminableModel;
+use Pingu\Core\Traits\Models\HasAdminRoutes;
+use Pingu\Core\Traits\Models\HasAjaxRoutes;
+use Pingu\Core\Traits\Models\HasRouteSlug;
 use Pingu\Forms\Fields\Text;
-use Pingu\Forms\Traits\FormableModel;
-use Pingu\Jsgrid\Contracts\JsGridableModel as JsGridableModelContract;
+use Pingu\Forms\Traits\Formable;
+use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
 use Pingu\Jsgrid\Fields\Text as JsGridText;
-use Pingu\Jsgrid\Traits\JsGridableModel;
+use Pingu\Jsgrid\Traits\Models\JsGridable;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 
 class PageLayout extends BaseModel implements
-    JsGridableModelContract, HasContextualLinks, AdminableModelContract
+    JsGridableContract, HasContextualLinksContract, HasAdminRoutesContract
 {
-    use JsGridableModel, FormableModel, AjaxableModel, AdminableModel;
+    use JsGridable, Formable, HasAjaxRoutes, HasAdminRoutes, HasRouteSlug;
 
     protected $fillable = ['name'];
 
     protected $visible = ['id', 'name'];
 
-    public static $fieldDefinitions = [
-        'name' => [
-            'type' => Text::class,
-            'label' => 'Name'
-        ]
-    ];
+    /**
+     * @inheritDoc
+     */
+    public function formAddFields()
+    {
+        return ['name'];
+    }
 
-    public static $validationRules = [
-        'name' => 'required|unique:page_layouts,name,{id}'
-    ];
+    /**
+     * @inheritDoc
+     */
+    public function formEditFields()
+    {
+        return ['name'];
+    }
 
-    public static $editFields = ['name'];
+    /**
+     * @inheritDoc
+     */
+    public function fieldDefinitions()
+    {
+        return [
+            'name' => [
+                'type' => Text::class,
+                'label' => 'Name'
+            ]
+        ];
+    }
 
-    public static $addFields = ['name'];
+    /**
+     * @inheritDoc
+     */
+    public function validationRules()
+    {
+        return [
+            'name' => 'required|unique:page_layouts,name,{id}'
+        ];
+    }
 
+    /**
+     * @inheritDoc
+     */
+    public function validationMessages()
+    {
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
     public static function friendlyName()
     {
         return 'Layout';
     }
 
+    /**
+     * Pages relation
+     * @return Relation
+     */
     public function pages()
     {
     	return $this->hasMany(Page::class);
     }
 
+    /**
+     * Page reions relation
+     * @return Relation
+     */
     public function regions()
     {
     	return $this->hasMany(PageRegion::class);
@@ -68,7 +112,7 @@ class PageLayout extends BaseModel implements
         return [
             'edit' => [
                 'title' => 'Edit',
-                'url' => $this::transformAdminUri('edit', [$this->id], true)
+                'url' => $this::transformAdminUri('edit', [$this], true)
             ],
             'regions' => [
                 'model' => PageRegion::class,

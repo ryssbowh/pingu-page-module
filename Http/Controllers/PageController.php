@@ -5,28 +5,28 @@ namespace Pingu\Page\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use Notify, ContextualLinks, Blocks;
-use Pingu\Core\Contracts\ModelController as ModelControllerContract;
+use Pingu\Core\Contracts\Controllers\HandlesModelContract;
 use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\ModelController;
-use Pingu\Forms\Contracts\FormableModel;
-use Pingu\Jsgrid\Contracts\JsGridController as JsGridControllerContract;
-use Pingu\Jsgrid\Traits\JsGridController;
+use Pingu\Core\Traits\Controllers\HandlesModel;
+use Pingu\Forms\Traits\Formable;
+use Pingu\Jsgrid\Contracts\Controllers\JsGridContract;
+use Pingu\Jsgrid\Traits\Controllers\JsGrid;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
 
-class PageController extends BaseController implements ModelControllerContract, JsGridControllerContract
+class PageController extends BaseController implements HandlesModelContract, JsGridContract
 {
-	use JsGridController, ModelController;
+    use HandlesModel, JsGrid;
 
 	public function getModel():string
 	{
 		return Page::class;
 	}
 
-	public function validateStoreRequest(Request $request, FormableModel $model)
+	public function validateStoreRequest(Request $request, Formable $model)
 	{
-		$validator = $model->makeValidator($request, $model->addFormFields());
+		$validator = $model->makeValidator($request, $model->getAddFormFields());
 		$validator->after(function($validator){
 			$slug = $validator->getData()['slug'];
 			if(route_exists($slug)){
@@ -46,7 +46,7 @@ class PageController extends BaseController implements ModelControllerContract, 
 			'regions' => $page->page_layout->regions,
 			'providers' => BlockProvider::all(),
 			'blockClass' => "Pingu\Page\Entities\Block",
-			'blockIndexUri' => Block::transformAjaxUri('index', [$page->id], true)
+			'blockIndexUri' => Block::transformAjaxUri('index', [$page], true)
 		]);
 	}
 

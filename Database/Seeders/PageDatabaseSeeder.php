@@ -14,6 +14,7 @@ use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
 use Pingu\Permissions\Entities\Permission;
+use Pingu\User\Entities\Role;
 
 class PageDatabaseSeeder extends Seeder
 {
@@ -38,7 +39,7 @@ class PageDatabaseSeeder extends Seeder
                 'name' => 'Content',
                 'width' => 100, 
                 'height' => 400, 
-                'page_layout_id' => $layout->id
+                'page_layout_id' => $layout->id 
             ]);
 
             $provider = BlockProvider::create([
@@ -66,44 +67,40 @@ class PageDatabaseSeeder extends Seeder
         }
 
         $perm1 = Permission::findOrCreate(['name' => 'view pages', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']);
-
         $perm2 = Permission::findOrCreate(['name' => 'view layouts', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'add layouts', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'edit layouts', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'delete layouts', 'section' => 'Page']);
         
-        Permission::findOrCreate(['name' => 'view layouts regions', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'manage layouts regions', 'section' => 'Page']);
-
-        Permission::findOrCreate(['name' => 'view pages blocks', 'section' => 'Page']);
-        Permission::findOrCreate(['name' => 'manage pages blocks', 'section' => 'Page']);
+        Role::find(4)->givePermissionTo([
+            $perm1,
+            $perm2,
+            Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'add layouts', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'edit layouts', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'delete layouts', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'view layouts regions', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'manage layouts regions', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'view pages blocks', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'manage pages blocks', 'section' => 'Page']),
+        ]);
 
         $menu = Menu::findByName('admin-menu');
-        $content = MenuItem::where(['name' => 'Content', 'url' => '', 'parent_id' => null])->first();
-        if(!$content){
-            $content = MenuItem::create([
-                'name' => 'Content', 
-                'url' => '',
-                'active' => 1,
-                'weight' => 3
-            ], $menu);
-            MenuItem::create([
-                'name' => 'Pages',
-                'url' => 'page.admin.pages',
-                'active' => 1,
-                'weight' => 1,
-                'permission_id' => $perm1->id
-            ], $menu, $content);
-            MenuItem::create([
-                'name' => 'Layouts',
-                'weight' => 2,
-                'active' => 1,
-                'url' => 'page.admin.layouts',
-                'permission_id' => $perm2->id
-            ], $menu, $content);
-        }
+        $structure = MenuItem::findByName('admin-menu.structure');
+        MenuItem::create([
+            'name' => 'Pages',
+            'url' => 'page.admin.pages',
+            'active' => 1,
+            'weight' => 1,
+            'deletable' => 0,
+            'permission_id' => $perm1->id
+        ], $menu, $structure);
+        MenuItem::create([
+            'name' => 'Layouts',
+            'weight' => 2,
+            'active' => 1,
+            'deletable' => 0,
+            'url' => 'page.admin.layouts',
+            'permission_id' => $perm2->id
+        ], $menu, $structure);
     }
 }

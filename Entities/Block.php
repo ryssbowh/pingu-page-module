@@ -2,17 +2,18 @@
 
 namespace Pingu\Page\Entities;
 
-use Pingu\Core\Contracts\AjaxableModel as AjaxableModelContract;
-use Pingu\Core\Contracts\AdminableModel as AdminableModelContract;
+use Pingu\Core\Contracts\Models\HasAdminRoutesContract;
+use Pingu\Core\Contracts\Models\HasAjaxRoutesContract;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Traits\AjaxableModel;
-use Pingu\Core\Traits\AdminableModel;
+use Pingu\Core\Traits\Models\HasAdminRoutes;
+use Pingu\Core\Traits\Models\HasAjaxRoutes;
+use Pingu\Core\Traits\Models\HasRouteSlug;
 use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\PageRegion;
 
-class Block extends BaseModel implements AdminableModelContract, AjaxableModelContract
+class Block extends BaseModel implements HasAdminRoutesContract, HasAjaxRoutesContract
 {
-    use AdminableModel, AjaxableModel;
+    use HasAdminRoutes, HasAjaxRoutes, HasRouteSlug;
 
     protected $fillable = [];
 

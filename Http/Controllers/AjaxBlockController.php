@@ -4,9 +4,11 @@ namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Pingu\Core\Contracts\AjaxModelController as AjaxModelControllerContract;
+use Pingu\Core\Contracts\Controllers\HandlesAjaxModelContract;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Core\Traits\AjaxModelController;
+use Pingu\Core\Traits\Controllers\HandlesAjaxModel;
 use Pingu\Forms\Contracts\FormableModel;
 use Pingu\Forms\Fields\Text;
 use Pingu\Forms\FormModel;
@@ -16,9 +18,9 @@ use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 
-class AjaxBlockController extends BaseController implements AjaxModelControllerContract
+class AjaxBlockController extends BaseController implements HandlesAjaxModelContract
 {
-	use AjaxModelController;
+    use HandlesAjaxModel;
 
 	public function getModel(): string
 	{
@@ -29,7 +31,7 @@ class AjaxBlockController extends BaseController implements AjaxModelControllerC
 	{
 		$provider = $request->route()->parameter(BlockProvider::routeSlug());
 		$form = new FormModel(
-			['url' => Block::transformAjaxUri('store', [$provider->id], true)], 
+			['url' => Block::transformAjaxUri('store', [$provider], true)], 
 			['submit' => ['Save'], 'view' => 'forms.modal', 'title' => 'Add a ' . $provider->name . ' block'], 
 			$provider->class
 		);
@@ -55,7 +57,7 @@ class AjaxBlockController extends BaseController implements AjaxModelControllerC
 		$post = $request->post();
 		$provider = $request->route()->parameter(BlockProvider::routeSlug());
 		$model = new $provider->class;
-		$validated = $model->validateForm($post, $model->addFormFields());
+		$validated = $model->validateForm($post, $model->getAddFormFields());
 
 		Block::unguard();
 		$model::unguard();
@@ -92,7 +94,7 @@ class AjaxBlockController extends BaseController implements AjaxModelControllerC
 	public function edit(Request $request, BaseModel $block):array
 	{
 		$form = new FormModel(
-			['url' => Block::transformAjaxUri('update', [$block->id], true), 'method' => 'put'], 
+			['url' => Block::transformAjaxUri('update', [$block], true), 'method' => 'put'], 
 			['submit' => ['Save'], 'view' => 'forms.modal', 'title' => 'Edit a ' . $block->instance->name . ' block'], 
 			$block->instance
 		);

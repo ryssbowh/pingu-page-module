@@ -4,18 +4,18 @@ namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Notify, ContextualLinks, Route;
-use Pingu\Core\Contracts\ModelController as ModelControllerContract;
+use Pingu\Core\Contracts\Controllers\HandlesModelContract;
 use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\ModelController;
-use Pingu\Jsgrid\Contracts\JsGridController as JsGridControllerContract;
-use Pingu\Jsgrid\Traits\JsGridController;
+use Pingu\Core\Traits\Controllers\HandlesModel;
+use Pingu\Jsgrid\Contracts\Controllers\JsGridContract;
+use Pingu\Jsgrid\Traits\Controllers\JsGrid;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
 use Pingu\Page\Http\Requests\LayoutRegionRequest;
 
-class RegionController  extends BaseController implements ModelControllerContract, JsGridControllerContract
+class RegionController  extends BaseController implements HandlesModelContract, JsGridContract
 {
-    use ModelController, JsGridController;
+    use HandlesModel, JsGrid;
 
 	public function getModel():string
 	{
@@ -28,8 +28,8 @@ class RegionController  extends BaseController implements ModelControllerContrac
 		return view('page::list_regions')->with([
 			'layout' => $layout,
 			'regions' => $layout->regions,
-			'addRegionUri' => PageRegion::transformAjaxUri('create', [$layout->id], true),
-			'saveRegionUri' => PageRegion::transformAjaxUri('patch', [$layout->id], true),
+			'addRegionUri' => PageRegion::transformAjaxUri('create', [$layout], true),
+			'saveRegionUri' => PageRegion::transformAjaxUri('patch', [$layout], true),
 			'deleteRegionUri' => PageRegion::getAjaxUri('delete', true)
 		]);
 	}

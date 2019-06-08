@@ -2,18 +2,18 @@
 
 namespace Pingu\Page\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Pingu\Core\Contracts\ModelController as ModelControllerContract;
-use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\ModelController;
-use Pingu\Jsgrid\Contracts\JsGridController as JsGridControllerContract;
-use Pingu\Jsgrid\Traits\JsGridController;
-use Pingu\Page\Entities\PageLayout;
 use Auth;
+use Illuminate\Http\Request;
+use Pingu\Core\Contracts\Controllers\HandlesModelContract;
+use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\Controllers\HandlesModel;
+use Pingu\Jsgrid\Contracts\Controllers\JsGridContract;
+use Pingu\Jsgrid\Traits\Controllers\JsGrid;
+use Pingu\Page\Entities\PageLayout;
 
-class LayoutController extends BaseController implements ModelControllerContract, JsGridControllerContract
+class LayoutController extends BaseController implements HandlesModelContract, JsGridContract
 {
-	use JsGridController, ModelController;
+    use HandlesModel, JsGrid;
 
 	public function getModel():string
 	{

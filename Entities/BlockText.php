@@ -3,49 +3,79 @@
 namespace Pingu\Page\Entities;
 
 use Pingu\Core\Entities\BaseModel;
+use Pingu\Forms\Contracts\FormableContract;
 use Pingu\Forms\Fields\Text;
 use Pingu\Forms\Renderers\Text as TextRenderer;
 use Pingu\Forms\Renderers\Textarea;
-use Pingu\Forms\Traits\FormableModel;
-use Pingu\Page\Contracts\FormableBlockContract;
+use Pingu\Forms\Traits\Formable;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Traits\Blockable;
 
 class BlockText extends BaseModel implements 
-	FormableBlockContract
+	FormableContract
 {
-	use FormableModel, Blockable;
+	use Formable, Blockable;
 
     protected $fillable = ['name', 'text'];
 
     protected $visible = ['id', 'text', 'name'];
 
-    public static $fieldDefinitions = [
-        'text' => [
-            'type' => Text::class,
-            'renderer' => Textarea::class,
-            'attributes' => ['required' => true],
-        ],
-        'name' => [
-            'type' => Text::class,
-            'renderer' => TextRenderer::class,
-            'attributes' => ['required' => true],
-        ]
-    ];
+        /**
+     * @inheritDoc
+     */
+    public function formAddFields()
+    {
+        return ['name', 'text'];
+    }
 
-    public static $validationRules = [
-		'text' => 'required',
-		'name' => 'required'
-	];
+    /**
+     * @inheritDoc
+     */
+    public function formEditFields()
+    {
+        return ['name', 'text'];
+    }
 
-    public static $validationMessages = [
-        'text.required' => 'Text is required',
-        'name.required' => 'Name is required'
-    ];
+    /**
+     * @inheritDoc
+     */
+    public function fieldDefinitions()
+    {
+        return [
+            'text' => [
+                'type' => Text::class,
+                'renderer' => Textarea::class,
+                'attributes' => ['required' => true],
+            ],
+            'name' => [
+                'type' => Text::class,
+                'renderer' => TextRenderer::class,
+                'attributes' => ['required' => true],
+            ]
+        ];
+    }
 
-    public static $addFields = ['name', 'text'];
+    /**
+     * @inheritDoc
+     */
+    public function validationRules()
+    {
+        return [
+            'text' => 'required|string',
+            'name' => 'required|string'
+        ];
+    }
 
-    public static $editFields = ['name', 'text'];
+    /**
+     * @inheritDoc
+     */
+    public function validationMessages()
+    {
+        return [
+            'text.required' => 'Text is required',
+            'name.required' => 'Name is required'
+        ];
+    }
 
     public function block()
     {
