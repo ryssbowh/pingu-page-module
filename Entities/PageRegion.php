@@ -7,11 +7,11 @@ use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\Models\HasAdminRoutes;
 use Pingu\Core\Traits\Models\HasAjaxRoutes;
 use Pingu\Core\Traits\Models\HasRouteSlug;
-use Pingu\Forms\Fields\Model;
-use Pingu\Forms\Fields\Number;
-use Pingu\Forms\Fields\Text;
+use Pingu\Forms\Fields\Model\Model;
+use Pingu\Forms\Fields\Model\Number;
+use Pingu\Forms\Fields\Model\Text;
 use Pingu\Forms\Renderers\Hidden;
-use Pingu\Forms\Traits\Formable;
+use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
 use Pingu\Jsgrid\Fields\Text as JsGridText;
 use Pingu\Jsgrid\Traits\Models\JsGridable;
@@ -122,7 +122,7 @@ class PageRegion extends BaseModel implements
     	return $this->belongsToMany(Block::class)->withTimestamps()->withPivot('weight')->orderBy('weight','asc');
     }
 
-    public static function jsGridFields()
+    public function jsGridFields()
     {
     	return [
     		'name' => [

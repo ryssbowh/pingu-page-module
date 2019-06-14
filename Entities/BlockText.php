@@ -3,11 +3,11 @@
 namespace Pingu\Page\Entities;
 
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Forms\Contracts\FormableContract;
-use Pingu\Forms\Fields\Text;
+use Pingu\Forms\Contracts\Models\FormableContract;
+use Pingu\Forms\Fields\Model\Text;
 use Pingu\Forms\Renderers\Text as TextRenderer;
 use Pingu\Forms\Renderers\Textarea;
-use Pingu\Forms\Traits\Formable;
+use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Traits\Blockable;
 

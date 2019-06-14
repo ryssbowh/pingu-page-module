@@ -8,10 +8,14 @@ use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\Models\HasAdminRoutes;
 use Pingu\Core\Traits\Models\HasAjaxRoutes;
 use Pingu\Core\Traits\Models\HasRouteSlug;
-use Pingu\Forms\Fields\{Text, Model};
-use Pingu\Forms\Traits\Formable;
+use Pingu\Forms\Support\Fields\Checkboxes;
+use Pingu\Forms\Support\Fields\ModelSelect;
+use Pingu\Forms\Support\Fields\Select;
+use Pingu\Forms\Support\Fields\TextInput;
+use Pingu\Forms\Support\Types\Model;
+use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
-use Pingu\Jsgrid\Fields\{Text as JsGridText, Model as JsGridModel};
+use Pingu\Jsgrid\Fields\{Text as JsGridText, ModelSelect as JsGridModelSelect};
 use Pingu\Jsgrid\Traits\Models\JsGridable;
 use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\PageLayout;
@@ -51,19 +55,23 @@ class Page extends BaseModel implements
     {
         return [
             'name' => [
-                'type' => Text::class,
-                'label' => 'Name'
+                'field' => TextInput::class,
             ],
             'slug' => [
-                'type' => Text::class,
-                'label' => 'Url'
+                'field' => TextInput::class,
+                'options' => [
+                    'label' => 'Url'
+                ]
             ],
             'page_layout' => [
-                'type' => Model::class,
-                'label' => 'Layout',
-                'allowNoValue' => false,
-                'model' => PageLayout::class,
-                'textField' => ['name']
+                'field' => ModelSelect::class,
+                'options' => [
+                    'label' => 'Layout',
+                    'allowNoValue' => false,
+                    'model' => PageLayout::class,
+                    'textField' => ['name'],
+                    'type' => Model::class,
+                ]
             ]
         ];
     }
@@ -102,7 +110,7 @@ class Page extends BaseModel implements
         return $this->belongsTo(PageLayout::class);
     }
 
-    public static function jsGridFields()
+    public function jsGridFields()
     {
         return [
             'name' => [
@@ -112,7 +120,7 @@ class Page extends BaseModel implements
                 'type' => JsGridText::class
             ], 
             'page_layout' => [
-                'type' => JsGridModel::class
+                'type' => JsGridModelSelect::class
             ]
         ];
     }
