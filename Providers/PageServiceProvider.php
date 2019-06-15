@@ -3,13 +3,13 @@
 namespace Pingu\Page\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Support\ServiceProvider;
+use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Providers\RouteServiceProvider;
 use Route, Asset;
 
-class PageServiceProvider extends ServiceProvider
+class PageServiceProvider extends ModuleServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -27,7 +27,7 @@ class PageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerModelSlugs();
+        $this->registerModelSlugs(__DIR__.'/../'.$this->modelFolder);
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerFactories();
@@ -48,14 +48,6 @@ class PageServiceProvider extends ServiceProvider
         $this->app->singleton('page.pages', \Pingu\Page\Pages::class);
         $this->app->singleton('page.blocks', \Pingu\Page\Blocks::class);
         $this->app->register(RouteServiceProvider::class);
-    }
-
-    /**
-     * Registers all the slugs for this module's models
-     */
-    public function registerModelSlugs()
-    {
-        \ModelRoutes::registerSlugsFromPath(realpath(__DIR__.'/../'.$this->modelFolder));
     }
 
     /**
