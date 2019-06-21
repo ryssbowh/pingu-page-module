@@ -2,16 +2,12 @@
 
 namespace Pingu\Page\Http\Controllers;
 
-use Pingu\Core\Contracts\Controllers\HandlesAjaxModelContract;
-use Pingu\Core\Http\Controllers\BaseController;
-use Pingu\Core\Traits\Controllers\HandlesAjaxModel;
+use Pingu\Core\Http\Controllers\AjaxModelController;
 use Pingu\Page\Entities\Page;
 
-class AjaxPageController extends BaseController implements HandlesAjaxModelContract
+class AjaxPageController extends AjaxModelController
 {
-    use HandlesAjaxModel;
-
-	public function getModel(): string
+	public function getModel()
 	{
 		return Page::class;
 	}

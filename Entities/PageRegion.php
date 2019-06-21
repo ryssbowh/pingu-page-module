@@ -7,10 +7,10 @@ use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\Models\HasAdminRoutes;
 use Pingu\Core\Traits\Models\HasAjaxRoutes;
 use Pingu\Core\Traits\Models\HasRouteSlug;
-use Pingu\Forms\Fields\Model\Model;
-use Pingu\Forms\Fields\Model\Number;
-use Pingu\Forms\Fields\Model\Text;
-use Pingu\Forms\Renderers\Hidden;
+use Pingu\Forms\Support\Fields\Hidden;
+use Pingu\Forms\Support\Fields\NumberInput;
+use Pingu\Forms\Support\Fields\TextInput;
+use Pingu\Forms\Support\Types\Model;
 use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
 use Pingu\Jsgrid\Fields\Text as JsGridText;
@@ -55,20 +55,21 @@ class PageRegion extends BaseModel implements
     {
         return [
             'name' => [
-                'type' => Text::class,
-                'label' => 'Name'
+                'field' => TextInput::class
             ],
             'width' => [
-                'type' => Number::class
+                'field' => NumberInput::class
             ],
             'height' => [
-                'type' => Number::class
+                'field' => NumberInput::class
             ],
             'page_layout' => [
-                'type' => Model::class,
-                'model' => PageLayout::class,
-                'textField' => ['name'],
-                'renderer' => Hidden::class
+                'field' => Hidden::class,
+                'options' => [
+                    'model' => PageLayout::class,
+                    'textField' => ['name'],
+                    'type' => Model::class
+                ]
             ]
         ];
     }
@@ -79,7 +80,7 @@ class PageRegion extends BaseModel implements
     public function validationRules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|string',
             'page_layout' => 'required|exists:page_layouts,id',
             'width' => 'numeric',
             'height' => 'numeric'

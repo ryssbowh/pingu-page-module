@@ -56,11 +56,17 @@ class Page extends BaseModel implements
         return [
             'name' => [
                 'field' => TextInput::class,
+                'attributes' => [
+                    'required' => true
+                ]
             ],
             'slug' => [
                 'field' => TextInput::class,
                 'options' => [
                     'label' => 'Url'
+                ],
+                'attributes' => [
+                    'required' => true
                 ]
             ],
             'page_layout' => [
@@ -83,7 +89,7 @@ class Page extends BaseModel implements
     {
         return [
             'name' => 'required',
-            'slug' => 'required|unique:pages,slug,{id}',
+            'slug' => 'required|unique:pages,slug,'.$this->id,
             'page_layout' => 'required|exists:page_layouts,id'
         ];
     }

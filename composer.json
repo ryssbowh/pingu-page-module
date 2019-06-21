@@ -22,12 +22,5 @@
         "psr-4": {
             "Pingu\\Page\\": ""
         }
-    },
-    "require":{
-        "pingu/core-module": "1.1.*",
-        "pingu/forms-module": "1.1.*",
-        "pingu/settings-module": "1.1.*",
-        "pingu/permissions-module": "1.1.*",
-        "pingu/jsgrid-module": "1.1.*"
     }
 }

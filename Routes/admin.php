@@ -16,33 +16,33 @@ use Pingu\Page\Entities\PageRegion;
 |
 */
 
-Route::get(Page::getAdminUri('index'), ['uses' => 'PageController@index'])
+Route::get(Page::getAdminUri('index'), ['uses' => 'JsGridPageController@index'])
 	->name('page.admin.pages')
 	->middleware('can:view pages');
-Route::get(Page::getAdminUri('edit'), ['uses' => 'PageController@edit'])
+Route::get(Page::getAdminUri('edit'), ['uses' => 'AdminPageController@edit'])
 	->middleware('can:edit pages');
-Route::put(Page::getAdminUri('update'), ['uses' => 'PageController@update'])
+Route::put(Page::getAdminUri('update'), ['uses' => 'AdminPageController@update'])
 	->middleware('can:edit pages');
-Route::get(Block::getAdminUri('index'), ['uses' => 'PageController@listBlocks'])
+Route::get(Block::getAdminUri('index'), ['uses' => 'AdminPageController@listBlocks'])
 	->middleware('can:view pages blocks');
 
-Route::get(Page::getAdminUri('create'), ['uses' => 'PageController@create'])
+Route::get(Page::getAdminUri('create'), ['uses' => 'AdminPageController@create'])
 	->name('page.admin.pages.create')
 	->middleware('can:add pages');
-Route::post(Page::getAdminUri('store'), ['uses' => 'PageController@store'])
+Route::post(Page::getAdminUri('store'), ['uses' => 'AdminPageController@store'])
 	->middleware('can:add pages');
 
-Route::get(PageLayout::getAdminUri('index'), ['uses' => 'LayoutController@index'])
+Route::get(PageLayout::getAdminUri('index'), ['uses' => 'JsGridLayoutController@index'])
 	->name('page.admin.layouts')
 	->middleware('can:view layouts');
-Route::get(PageLayout::getAdminUri('edit'), ['uses' => 'LayoutController@edit'])
+Route::get(PageLayout::getAdminUri('edit'), ['uses' => 'AdminLayoutController@edit'])
 	->middleware('can:edit layouts');
 
-Route::get(PageRegion::getAdminUri('index'), ['uses' => 'RegionController@listRegions', 'contextualLink' => 'regions'])
+Route::get(PageRegion::getAdminUri('index'), ['uses' => 'AdminRegionController@listRegions', 'contextualLink' => 'regions'])
 	->middleware('can:view layouts regions');
 
-Route::get(PageLayout::getAdminUri('create'), ['uses' => 'LayoutController@create'])
+Route::get(PageLayout::getAdminUri('create'), ['uses' => 'AdminLayoutController@create'])
 	->name('page.admin.layouts.create')
 	->middleware('can:add layouts');
-Route::post(PageLayout::getAdminUri('store'), ['uses' => 'LayoutController@store'])
+Route::post(PageLayout::getAdminUri('store'), ['uses' => 'AdminLayoutController@store'])
 	->middleware('can:add layouts');
