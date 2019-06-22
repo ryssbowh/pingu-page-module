@@ -3,7 +3,7 @@
     "alias": "page",
     "description": "",
     "keywords": [],
-    "active": 1,
+    "active": 0,
     "order": 2,
     "providers": [
         "Pingu\\Page\\Providers\\PageServiceProvider"
