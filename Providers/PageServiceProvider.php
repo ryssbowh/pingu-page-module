@@ -34,8 +34,8 @@ class PageServiceProvider extends ModuleServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'page');
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
-        Asset::container('modules')->add('core-js', 'module-assets/Page/js/Page.js');
-        Asset::container('modules')->add('core-css', 'module-assets/Page/css/Page.css');
+        Asset::container('modules')->add('core-js', 'module-assets/Page.js');
+        Asset::container('modules')->add('core-css', 'module-assets/Page.css');
     }
 
     /**

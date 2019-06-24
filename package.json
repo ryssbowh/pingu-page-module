@@ -1,5 +1,5 @@
 {
-    "devDependencies": {
+    "dependencies": {
         "jquery-ui": "1.12.*"
     }
 }
