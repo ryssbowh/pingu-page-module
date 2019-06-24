@@ -4,6 +4,8 @@ Tools to create simple landing pages, define regions for them, and assign blocks
 
 Provides a block api to easily define new type of blocks.
 
+## v2.0.0
+
 ## v1.1.3
 - adapted to Core Contracts renaming
 - give perms to admin at install

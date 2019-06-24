@@ -20,9 +20,9 @@ use Pingu\Page\Entities\PageRegion;
 /**
  * Pages
  */
-Route::get(Page::getAjaxUri('index'), ['uses' => 'AjaxPageController@index'])
+Route::get(Page::getAjaxUri('index'), ['uses' => 'JsGridPageController@jsGridIndex'])
 	->middleware('can:view pages');
-Route::delete(Page::getAjaxUri('delete'), ['uses' => 'AjaxPageController@destroy'])
+Route::delete(Page::getAjaxUri('delete'), ['uses' => 'AjaxPageController@delete'])
 	->middleware('can:delete pages');
 Route::put(Page::getAjaxUri('update'), ['uses' => 'AjaxPageController@update'])
 	->middleware('can:edit pages');
@@ -30,9 +30,9 @@ Route::put(Page::getAjaxUri('update'), ['uses' => 'AjaxPageController@update'])
 /**
  * Layouts
  */
-Route::get(PageLayout::getAjaxUri('index'), ['uses' => 'AjaxLayoutController@index'])
+Route::get(PageLayout::getAjaxUri('index'), ['uses' => 'JsGridLayoutController@jsGridIndex'])
 	->middleware('can:view layouts');
-Route::delete(PageLayout::getAjaxUri('delete'), ['uses' => 'AjaxLayoutController@destroy'])
+Route::delete(PageLayout::getAjaxUri('delete'), ['uses' => 'AjaxLayoutController@delete'])
 	->middleware('can:delete layouts');
 Route::put(PageLayout::getAjaxUri('update'), ['uses' => 'AjaxLayoutController@update'])
 	->middleware('can:edit layouts');
@@ -46,7 +46,7 @@ Route::post(PageRegion::getAjaxUri('store'), ['uses' => 'AjaxRegionController@st
 	->middleware('can:manage layouts regions');
 Route::patch(PageRegion::getAjaxUri('patch'), ['uses' => 'AjaxRegionController@patch'])
 	->middleware('can:manage layouts regions');
-Route::delete(PageRegion::getAjaxUri('delete'), ['uses' => 'AjaxRegionController@destroy'])
+Route::delete(PageRegion::getAjaxUri('delete'), ['uses' => 'AjaxRegionController@delete'])
 	->middleware('can:manage layouts regions');
 
 /**

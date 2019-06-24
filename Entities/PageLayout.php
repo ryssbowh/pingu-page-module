@@ -8,8 +8,9 @@ use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Traits\Models\HasAdminRoutes;
 use Pingu\Core\Traits\Models\HasAjaxRoutes;
 use Pingu\Core\Traits\Models\HasRouteSlug;
-use Pingu\Forms\Fields\Text;
-use Pingu\Forms\Traits\Formable;
+use Pingu\Forms\Support\Fields\TextInput;
+use Pingu\Forms\Support\Types\Text;
+use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
 use Pingu\Jsgrid\Fields\Text as JsGridText;
 use Pingu\Jsgrid\Traits\Models\JsGridable;
@@ -48,8 +49,10 @@ class PageLayout extends BaseModel implements
     {
         return [
             'name' => [
-                'type' => Text::class,
-                'label' => 'Name'
+                'field' => TextInput::class,
+                'options' => [
+                    'type' => Text::class
+                ]
             ]
         ];
     }
@@ -98,7 +101,7 @@ class PageLayout extends BaseModel implements
     	return $this->hasMany(PageRegion::class);
     }
 
-    public static function jsGridFields()
+    public function jsGridFields()
     {
     	return [
     		'name' => [
