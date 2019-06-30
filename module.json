@@ -1,7 +1,7 @@
 {
     "name": "Page",
     "alias": "page",
-    "description": "",
+    "description": "Defines pages, layouts, regions and blocks",
     "keywords": [],
     "active": 1,
     "order": 2,

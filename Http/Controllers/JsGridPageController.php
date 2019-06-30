@@ -2,10 +2,10 @@
 
 namespace Pingu\Page\Http\Controllers;
 
-use Pingu\Jsgrid\Http\Controllers\JsGridController;
+use Pingu\Jsgrid\Http\Controllers\JsGridModelController;
 use Pingu\Page\Entities\Page;
 
-class JsGridPageController extends JsGridController
+class JsGridPageController extends JsGridModelController
 {
 	public function getModel():string
 	{
