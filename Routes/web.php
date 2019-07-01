@@ -14,4 +14,6 @@
 /**
  * Database pages
  */
-Pages::loadRoutes();
+if(pingu_installed()){
+	Pages::loadRoutes();
+}
