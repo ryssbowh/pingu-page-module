@@ -3,7 +3,6 @@
     "alias": "page",
     "description": "Defines pages, layouts, regions and blocks",
     "keywords": [],
-    "active": 1,
     "order": 2,
     "providers": [
         "Pingu\\Page\\Providers\\PageServiceProvider"
