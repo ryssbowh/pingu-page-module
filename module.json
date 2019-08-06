@@ -4,6 +4,7 @@
     "description": "Defines pages, layouts, regions and blocks",
     "keywords": [],
     "order": 2,
+    "core": 1,
     "providers": [
         "Pingu\\Page\\Providers\\PageServiceProvider"
     ],
