@@ -9,8 +9,7 @@
         "Pingu\\Page\\Providers\\PageServiceProvider"
     ],
     "aliases": {
-        "Pages": "Pingu\\Page\\Facades\\Pages",
-        "Blocks": "Pingu\\Page\\Facades\\Blocks"
+        "Pages": "Pingu\\Page\\Facades\\Pages"
     },
     "files": [],
     "requires": []

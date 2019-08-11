@@ -2,11 +2,12 @@
 
 namespace Pingu\Page\Http\Controllers;
 
+use Pingu\Block\Entities\Block;
+use Pingu\Block\Entities\BlockProvider;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Http\Controllers\AdminModelController;
-use Pingu\Page\Entities\Block;
-use Pingu\Page\Entities\BlockProvider;
 use Pingu\Page\Entities\Page;
+use Pingu\Page\Entities\PageRegion;
 
 class AdminPageController extends AdminModelController
 {
@@ -34,16 +35,28 @@ class AdminPageController extends AdminModelController
 	/**
 	 * @inheritDoc
 	 */
-	public function listBlocks(Page $page)
+	public function editBlocks(Page $page)
 	{
 		\ContextualLinks::addModelLinks($page);
 		return view('page::page_blocks')->with([
 			'page' => $page,
-			'layout' => $page->page_layout,
-			'regions' => $page->page_layout->regions,
-			'providers' => BlockProvider::all(),
-			'blockClass' => "Pingu\Page\Entities\Block",
-			'blockIndexUri' => Block::transformAjaxUri('index', [$page], true)
+			'regions' => $page->regions,
+			'blocks' => \Blocks::bySection(),
+			'creators' => \BlockCreator::getModels(),
+			'listBlocksUri' => Page::transformUri('listBlocks', $page, config('core.ajaxPrefix')),
+			'patchUrl' => Page::transformUri('patchBlocks', $page, config('core.ajaxPrefix'))
+		]);
+	}
+
+	public function editLayout(Page $page)
+	{
+		\ContextualLinks::addModelLinks($page);
+		return view('page::page_layout')->with([
+			'regions' => $page->regions,
+			'page' => $page,
+			'addRegionUri' => PageRegion::transformUri('create', $page, config('core.ajaxPrefix')),
+			'saveRegionUri' => PageRegion::transformUri('patch', $page, config('core.ajaxPrefix')),
+			'deleteRegionUri' => PageRegion::getUri('delete', config('core.ajaxPrefix'))
 		]);
 	}
 }

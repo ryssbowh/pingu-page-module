@@ -5,7 +5,7 @@ namespace Pingu\Page\Http\Controllers;
 use Pingu\Core\Entities\BaseModel;
 use Pingu\Core\Http\Controllers\AjaxModelController;
 use Pingu\Forms\Support\Form;
-use Pingu\Page\Entities\PageLayout;
+use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -22,8 +22,8 @@ class AjaxRegionController extends AjaxModelController
 	 */
 	protected function getStoreUri()
 	{
-		$layout = $this->request->route()->parameter(PageLayout::routeSlug());
-		return PageRegion::transformAjaxUri('store', [$layout], true);
+		$page = $this->request->route()->parameter(Page::routeSlug());
+		return PageRegion::transformUri('store', [$page], config('core.ajaxPrefix'));
 	}
 
 	/**
@@ -31,8 +31,8 @@ class AjaxRegionController extends AjaxModelController
 	 */
 	protected function afterStoreFormCreated(Form $form)
 	{
-		$layout = $this->request->route()->parameter(PageLayout::routeSlug());
-		$form->setFieldValue('page_layout', $layout->id);
+		$page = $this->request->route()->parameter(Page::routeSlug());
+		$form->setFieldValue('page', $page->id);
 	}
 
 	/**

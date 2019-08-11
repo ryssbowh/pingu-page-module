@@ -13,39 +13,11 @@ class M2019_08_09_180234331028_Install extends Migration
      */
     public function up()
     {
-        Schema::create('page_layouts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->timestamps();
-            $table->softDeletes();
-        });
 
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->integer('page_layout_id')->unsigned()->index();
-            $table->foreign('page_layout_id')->references('id')->on('page_layouts');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        Schema::create('block_providers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->boolean('system');
-            $table->string('name');
-            $table->string('class');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        Schema::create('blocks', function (Blueprint $table) {
-            $table->increments('id');
-            $table->boolean('system');
-            $table->integer('instance_id')->unsigned()->index();
-            $table->string('instance_type');
-            $table->integer('provider_id')->unsigned()->index();
-            $table->foreign('provider_id')->references('id')->on('block_providers');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -55,8 +27,8 @@ class M2019_08_09_180234331028_Install extends Migration
             $table->string('name');
             $table->float('width', 8, 1);
             $table->integer('height')->unsigned();
-            $table->integer('page_layout_id')->unsigned()->index();
-            $table->foreign('page_layout_id')->references('id')->on('page_layouts');
+            $table->integer('page_id')->unsigned()->index();
+            $table->foreign('page_id')->references('id')->on('pages');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -71,13 +43,6 @@ class M2019_08_09_180234331028_Install extends Migration
             $table->timestamps();
         });
 
-        Schema::create('block_texts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('text');
-            $table->text('name');
-            $table->timestamps();
-            $table->softDeletes();
-        });
     }
 
     /**
@@ -87,12 +52,8 @@ class M2019_08_09_180234331028_Install extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('block_texts');
         Schema::dropIfExists('block_page_region');
-        Schema::dropIfExists('blocks');
-        Schema::dropIfExists('block_providers');
         Schema::dropIfExists('pages');
         Schema::dropIfExists('page_regions');
-        Schema::dropIfExists('page_layouts');
     }
 }

@@ -5,9 +5,6 @@ use Pingu\Core\Seeding\DisableForeignKeysTrait;
 use Pingu\Core\Seeding\MigratableSeeder;
 use Pingu\Menu\Entities\Menu;
 use Pingu\Menu\Entities\MenuItem;
-use Pingu\Page\Entities\Block;
-use Pingu\Page\Entities\BlockProvider;
-use Pingu\Page\Entities\BlockText;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
@@ -24,40 +21,18 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
     public function run(): void
     {
         Model::unguard();
-        
-        $layout = PageLayout::create([
-            'name' => 'One column'
+
+        $page = Page::create([
+            'name' => 'test',
+            'slug' => 'test1'
         ]);
 
         $region = PageRegion::create([
             'name' => 'Content',
             'width' => 100, 
             'height' => 400, 
-            'page_layout_id' => $layout->id 
+            'page_id' => $page->id 
         ]);
-
-        $provider = BlockProvider::create([
-            'name' => 'Text',
-            'system' => false,
-            'class' => BlockText::class
-        ]);
-
-        $page = Page::create([
-            'name' => 'test',
-            'slug' => 'test1', 
-            'page_layout_id' => $layout->id
-        ]);
-
-        $block = new Block([
-            'system' => false
-        ]);
-        $block->provider()->associate($provider);
-
-        $textBlock = BlockText::create([
-            'text' => 'My First Block',
-            'name' => 'First block'
-        ]);
-        $textBlock->block()->save($block);
 
         $perm1 = Permission::findOrCreate(['name' => 'view pages', 'section' => 'Page']);
         $perm2 = Permission::findOrCreate(['name' => 'view layouts', 'section' => 'Page']);
@@ -68,13 +43,10 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
             Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'add layouts', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'edit layouts', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'delete layouts', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'view layouts regions', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'manage layouts regions', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'view pages blocks', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'manage pages blocks', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'view page layouts', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'manage page layouts', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'view page blocks', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'manage page blocks', 'section' => 'Page']),
         ]);
 
         $menu = Menu::findByName('admin-menu');
@@ -86,14 +58,6 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
             'weight' => 1,
             'deletable' => 0,
             'permission_id' => $perm1->id
-        ], $menu, $structure);
-        MenuItem::create([
-            'name' => 'Layouts',
-            'weight' => 2,
-            'active' => 1,
-            'deletable' => 0,
-            'url' => 'page.admin.layouts',
-            'permission_id' => $perm2->id
         ], $menu, $structure);
     }
 

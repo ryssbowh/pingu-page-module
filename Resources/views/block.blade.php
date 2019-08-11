@@ -1,3 +1,3 @@
-<div class="block block_{{ kebab_case($provider->name) }}">
-	@include('page::blocks.block_'.kebab_case($provider->name))
+<div class="block {{ kebab_case($block::friendlyName()) }}">
+	@include('page::blocks.'.kebab_case($block::friendlyName()))
 </div>

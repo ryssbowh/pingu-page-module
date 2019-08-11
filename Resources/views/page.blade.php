@@ -6,8 +6,8 @@
 		<div class="container">
 			@foreach($regions as $region)
 				<div class="region {{ kebab_case($region->name) }}" style="width:{{ $region->width }}%">
-					@foreach($region->getBlocks() as $block)
-						@include('page::block', ['provider'=> $block->block_provider, 'block' => $block->loadBlock()])
+					@foreach($region->blocks as $block)
+						@include('page::block', ['block' => $block->instance])
 					@endforeach
 				</div>
 			@endforeach

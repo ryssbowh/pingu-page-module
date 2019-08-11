@@ -2,12 +2,10 @@
 
 namespace Pingu\Page\Entities;
 
-use Pingu\Core\Contracts\Models\HasAdminRoutesContract;
+use Pingu\Block\Entities\Block;
 use Pingu\Core\Contracts\Models\HasContextualLinksContract;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Traits\Models\HasAdminRoutes;
-use Pingu\Core\Traits\Models\HasAjaxRoutes;
-use Pingu\Core\Traits\Models\HasRouteSlug;
+use Pingu\Core\Traits\Models\HasBasicCrudUris;
 use Pingu\Forms\Support\Fields\Checkboxes;
 use Pingu\Forms\Support\Fields\ModelSelect;
 use Pingu\Forms\Support\Fields\Select;
@@ -17,27 +15,26 @@ use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
 use Pingu\Jsgrid\Fields\{Text as JsGridText, ModelSelect as JsGridModelSelect};
 use Pingu\Jsgrid\Traits\Models\JsGridable;
-use Pingu\Page\Entities\Block;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
 
 class Page extends BaseModel implements
-    JsGridableContract, HasContextualLinksContract, HasAdminRoutesContract
+    JsGridableContract, HasContextualLinksContract
 {
-	use JsGridable, Formable, HasAjaxRoutes, HasAdminRoutes, HasRouteSlug;
+	use JsGridable, Formable, HasBasicCrudUris;
 
-    protected $fillable = ['name', 'slug', 'page_layout'];
+    protected $fillable = ['name', 'slug'];
 
-    protected $visible = ['id', 'name', 'slug', 'page_layout'];
+    protected $visible = ['id', 'name', 'slug'];
 
-    protected $with = ['page_layout'];
+    protected $with = [];
 
     /**
      * @inheritDoc
      */
     public function formAddFields()
     {
-        return ['name', 'slug', 'page_layout'];
+        return ['name', 'slug'];
     }
 
     /**
@@ -45,7 +42,7 @@ class Page extends BaseModel implements
      */
     public function formEditFields()
     {
-        return ['name', 'slug', 'page_layout'];
+        return ['name', 'slug'];
     }
 
     /**
@@ -67,16 +64,6 @@ class Page extends BaseModel implements
                 ],
                 'attributes' => [
                     'required' => true
-                ]
-            ],
-            'page_layout' => [
-                'field' => ModelSelect::class,
-                'options' => [
-                    'label' => 'Layout',
-                    'allowNoValue' => false,
-                    'model' => PageLayout::class,
-                    'textField' => ['name'],
-                    'type' => Model::class,
                 ]
             ]
         ];
@@ -111,9 +98,9 @@ class Page extends BaseModel implements
      * Page layout relation
      * @return Relation
      */
-    public function page_layout()
+    public function regions()
     {
-        return $this->belongsTo(PageLayout::class);
+        return $this->hasMany(PageRegion::class);
     }
 
     public function jsGridFields()
@@ -124,11 +111,28 @@ class Page extends BaseModel implements
             ], 
             'slug' => [
                 'type' => JsGridText::class
-            ], 
-            'page_layout' => [
-                'type' => JsGridModelSelect::class
             ]
         ];
+    }
+
+    public static function editLayoutUri()
+    {
+        return static::routeSlug().'/{'.static::routeSlug().'}/layout';
+    }
+
+    public static function editBlocksUri()
+    {
+        return static::routeSlug().'/{'.static::routeSlug().'}/blocks';
+    }
+
+    public static function patchBlocksUri()
+    {
+        return static::routeSlug().'/{'.static::routeSlug().'}/blocks';
+    }
+
+    public static function listBlocksUri()
+    {
+        return static::routeSlug().'/{'.static::routeSlug().'}/blocks';
     }
 
     public function getContextualLinks(): array
@@ -136,13 +140,15 @@ class Page extends BaseModel implements
         return [
             'edit' => [
                 'title' => 'Edit',
-                'url' => $this::transformAdminUri('edit', [$this], true)
+                'url' => $this::transformUri('edit', $this, config('core.adminPrefix'))
             ],
-            'users' => [
-                'model' => Block::class,
+            'regions' => [
+                'title' => 'Layout',
+                'url' => $this::transformUri('editLayout', $this, config('core.adminPrefix')),
+            ],
+            'blocks' => [
                 'title' => 'Blocks',
-                'url' => Block::transformAdminUri('index', [$this], true),
-                // 'relatedAddUrl' => Block::adminAddUrl().'?fields[role]='.$this->id
+                'url' => $this::transformUri('editBlocks', $this, config('core.adminPrefix')),
             ]
         ];
     }

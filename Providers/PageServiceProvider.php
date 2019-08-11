@@ -32,7 +32,6 @@ class PageServiceProvider extends ModuleServiceProvider
         $this->registerConfig();
         $this->registerFactories();
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'page');
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         Asset::container('modules')->add('page-js', 'module-assets/Page.js');
         Asset::container('modules')->add('page-css', 'module-assets/Page.css');
@@ -46,7 +45,6 @@ class PageServiceProvider extends ModuleServiceProvider
     public function register()
     {
         $this->app->singleton('page.pages', \Pingu\Page\Pages::class);
-        $this->app->singleton('page.blocks', \Pingu\Page\Blocks::class);
         $this->app->register(RouteServiceProvider::class);
     }
 

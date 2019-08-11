@@ -2,11 +2,9 @@
 
 namespace Pingu\Page\Entities;
 
-use Pingu\Core\Contracts\Models\HasAdminRoutesContract;
+use Pingu\Block\Entities\Block;
 use Pingu\Core\Entities\BaseModel;
-use Pingu\Core\Traits\Models\HasAdminRoutes;
-use Pingu\Core\Traits\Models\HasAjaxRoutes;
-use Pingu\Core\Traits\Models\HasRouteSlug;
+use Pingu\Core\Traits\Models\HasBasicCrudUris;
 use Pingu\Forms\Support\Fields\Hidden;
 use Pingu\Forms\Support\Fields\NumberInput;
 use Pingu\Forms\Support\Fields\TextInput;
@@ -15,15 +13,14 @@ use Pingu\Forms\Traits\Models\Formable;
 use Pingu\Jsgrid\Contracts\Models\JsGridableContract;
 use Pingu\Jsgrid\Fields\Text as JsGridText;
 use Pingu\Jsgrid\Traits\Models\JsGridable;
-use Pingu\Page\Entities\Block;
-use Pingu\Page\Entities\PageLayout;
+use Pingu\Page\Entities\Page;
 
 class PageRegion extends BaseModel implements
-    JsGridableContract, HasAdminRoutesContract
+    JsGridableContract
 {
-    use JsGridable, Formable, HasAjaxRoutes, HasAdminRoutes, HasRouteSlug;
+    use JsGridable, Formable, HasBasicCrudUris;
 
-    protected $fillable = ['name', 'width', 'height','page_layout'];
+    protected $fillable = ['name', 'width', 'height','page'];
 
     protected $visible = ['id','name','width','height'];
 
@@ -37,7 +34,7 @@ class PageRegion extends BaseModel implements
      */
     public function formAddFields()
     {
-        return ['name', 'page_layout'];
+        return ['name', 'page'];
     }
 
     /**
@@ -63,10 +60,10 @@ class PageRegion extends BaseModel implements
             'height' => [
                 'field' => NumberInput::class
             ],
-            'page_layout' => [
+            'page' => [
                 'field' => Hidden::class,
                 'options' => [
-                    'model' => PageLayout::class,
+                    'model' => Page::class,
                     'textField' => ['name'],
                     'type' => Model::class
                 ]
@@ -81,7 +78,7 @@ class PageRegion extends BaseModel implements
     {
         return [
             'name' => 'required|string',
-            'page_layout' => 'required|exists:page_layouts,id',
+            'page' => 'required|exists:pages,id',
             'width' => 'numeric',
             'height' => 'numeric'
         ];
@@ -109,9 +106,9 @@ class PageRegion extends BaseModel implements
      * Page layout relation
      * @return Relation
      */
-    public function page_layout()
+    public function page()
     {
-    	return $this->belongsTo(PageLayout::class);
+    	return $this->belongsTo(Page::class);
     }
 
     /**
@@ -135,40 +132,32 @@ class PageRegion extends BaseModel implements
     /**
      * @inheritDoc
      */
-    public static function adminIndexUri()
+    public static function indexUri()
     {
-        return PageLayout::routeSlug().'/{'.PageLayout::routeSlug().'}/'.self::routeSlugs();
+        return Page::routeSlug().'/{'.Page::routeSlug().'}/'.self::routeSlugs();
     }
 
     /**
      * @inheritDoc
      */
-    public static function ajaxIndexUri()
+    public static function patchUri()
     {
-        return PageLayout::routeSlug().'/{'.PageLayout::routeSlug().'}/'.self::routeSlugs();
+        return static::indexUri();
     }
 
     /**
      * @inheritDoc
      */
-    public static function ajaxPatchUri()
+    public static function storeUri()
     {
-        return static::ajaxIndexUri();
+        return static::indexUri();
     }
 
     /**
      * @inheritDoc
      */
-    public static function ajaxStoreUri()
+    public static function createUri()
     {
-        return static::ajaxIndexUri();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function ajaxCreateUri()
-    {
-        return static::ajaxIndexUri().'/create';
+        return static::indexUri().'/create';
     }
 }
