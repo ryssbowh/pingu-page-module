@@ -22,7 +22,7 @@ class Pages{
 		$pages = $this->getPages();
 		if(!$pages->isEmpty()){
 		    foreach($pages as $page){
-		        Route::get('/'.$page->slug, ['page' => $page, 'uses' => '\Pingu\Page\Http\Controllers\DbPageController@show']);
+		        Route::get('/{'.$page->slug.'}', ['uses' => '\Pingu\Page\Http\Controllers\DbPageController@show']);
 		    }
 		}
 	}

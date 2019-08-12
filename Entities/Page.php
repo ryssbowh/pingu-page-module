@@ -17,15 +17,16 @@ use Pingu\Jsgrid\Fields\{Text as JsGridText, ModelSelect as JsGridModelSelect};
 use Pingu\Jsgrid\Traits\Models\JsGridable;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Entities\PageRegion;
+use Pingu\Page\Exceptions\PageNotfoundException;
 
 class Page extends BaseModel implements
     JsGridableContract, HasContextualLinksContract
 {
 	use JsGridable, Formable, HasBasicCrudUris;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'slug', 'layout'];
 
-    protected $visible = ['id', 'name', 'slug'];
+    protected $visible = ['id', 'name', 'slug', 'layout'];
 
     protected $with = [];
 
@@ -34,7 +35,7 @@ class Page extends BaseModel implements
      */
     public function formAddFields()
     {
-        return ['name', 'slug'];
+        return ['name', 'slug', 'layout'];
     }
 
     /**
@@ -42,7 +43,7 @@ class Page extends BaseModel implements
      */
     public function formEditFields()
     {
-        return ['name', 'slug'];
+        return ['name', 'slug', 'layout'];
     }
 
     /**
@@ -65,6 +66,12 @@ class Page extends BaseModel implements
                 'attributes' => [
                     'required' => true
                 ]
+            ],
+            'layout' => [
+                'field' => Select::class,
+                'options' => [
+                    'items' => \Theme::front()->getSetting('layouts')
+                ]
             ]
         ];
     }
@@ -77,7 +84,7 @@ class Page extends BaseModel implements
         return [
             'name' => 'required',
             'slug' => 'required|unique:pages,slug,'.$this->id,
-            'page_layout' => 'required|exists:page_layouts,id'
+            'layout' => 'required'
         ];
     }
 
@@ -90,8 +97,17 @@ class Page extends BaseModel implements
             'name.required' => 'Name is required',
             'slug.required' => 'Url is required',
             'slug.unique' => 'This url already exists',
-            'page_layout.required' => 'Layout is required'
+            'layout.required' => 'Layout is required'
         ];
+    }
+
+    public static function findBySlug(string $slug)
+    {
+        $page = static::where(['slug' => $slug])->first();
+        if(!$page){
+            throw new PageNotfoundException($slug);
+        }
+        return $page;
     }
 
     /**
@@ -110,6 +126,9 @@ class Page extends BaseModel implements
                 'type' => JsGridText::class
             ], 
             'slug' => [
+                'type' => JsGridText::class
+            ],
+            'layout' => [
                 'type' => JsGridText::class
             ]
         ];

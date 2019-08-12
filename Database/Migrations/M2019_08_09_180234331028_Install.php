@@ -17,6 +17,7 @@ class M2019_08_09_180234331028_Install extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('layout');
             $table->string('slug')->unique();
             $table->timestamps();
             $table->softDeletes();
