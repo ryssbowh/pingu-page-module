@@ -24,7 +24,7 @@ class AjaxBlockController extends AjaxModelController
 	{
 		$provider = $this->request->route()->parameter(BlockProvider::routeSlug());
 		$form = new FormModel(
-			['url' => Block::transformUri('store', [$provider], config('core.ajaxPrefix'))], 
+			['url' => Block::makeUri('store', [$provider], ajaxPrefix())], 
 			['submit' => ['Save'], 'view' => 'forms.modal', 'title' => 'Add a ' . $provider->name . ' block'], 
 			$provider->class
 		);
@@ -37,7 +37,7 @@ class AjaxBlockController extends AjaxModelController
 		$post = $this->request->post();
 		$provider = $this->request->route()->parameter(BlockProvider::routeSlug());
 		$model = new $provider->class;
-		$validated = $model->validateForm($post, $model->getAddFormFields(), false);
+		$validated = $model->validateRequest($post, $model->getAddFormFields());
 
 		Block::unguard();
 		$model::unguard();
@@ -57,7 +57,7 @@ class AjaxBlockController extends AjaxModelController
 	public function edit(BaseModel $block):array
 	{
 		$form = new FormModel(
-			['url' => Block::transformUri('update', [$block], config('core.ajaxPrefix')), 'method' => 'put'], 
+			['url' => Block::makeUri('update', [$block], ajaxPrefix()), 'method' => 'put'], 
 			['submit' => ['Save'], 'view' => 'forms.modal', 'title' => 'Edit a ' . $block->instance->name . ' block'], 
 			$block->instance
 		);

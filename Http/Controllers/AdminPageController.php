@@ -2,6 +2,7 @@
 
 namespace Pingu\Page\Http\Controllers;
 
+use Illuminate\Validation\Validator;
 use Pingu\Block\Entities\Block;
 use Pingu\Block\Entities\BlockProvider;
 use Pingu\Core\Entities\BaseModel;
@@ -19,23 +20,17 @@ class AdminPageController extends AdminModelController
 	/**
 	 * @inheritDoc
 	 */
-	public function validateStoreRequest(BaseModel $model)
+	public function modifyStoreValidator(Validator $model)
 	{
-		$validator = $model->makeValidator($this->request->post(), $model->getAddFormFields(), false);
 		$validator->after(function($validator){
 			$slug = $validator->getData()['slug'];
 			if(route_exists($slug)){
 				$validator->errors()->add('slug', 'The route '.$slug.' already exists');
 			}
 		});
-		$validator->validate();
-		return $validator->validated();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function editBlocks(Page $page)
+	public function blocks(Page $page)
 	{
 		\ContextualLinks::addModelLinks($page);
 		return view('page::page_blocks')->with([
@@ -43,20 +38,10 @@ class AdminPageController extends AdminModelController
 			'regions' => $page->regions,
 			'blocks' => \Blocks::bySection(),
 			'creators' => \BlockCreator::getModels(),
-			'listBlocksUri' => Page::transformUri('listBlocks', $page, config('core.ajaxPrefix')),
-			'patchUrl' => Page::transformUri('patchBlocks', $page, config('core.ajaxPrefix'))
+			'listBlocksUri' => Page::makeUri('blocks', $page, ajaxPrefix()),
+			'patchUrl' => Page::makeUri('patchBlocks', [], ajaxPrefix()),
+			'blockClass' => Block::class
 		]);
 	}
-
-	public function editLayout(Page $page)
-	{
-		\ContextualLinks::addModelLinks($page);
-		return view('page::page_layout')->with([
-			'regions' => $page->regions,
-			'page' => $page,
-			'addRegionUri' => PageRegion::transformUri('create', $page, config('core.ajaxPrefix')),
-			'saveRegionUri' => PageRegion::transformUri('patch', $page, config('core.ajaxPrefix')),
-			'deleteRegionUri' => PageRegion::getUri('delete', config('core.ajaxPrefix'))
-		]);
-	}
+	
 }

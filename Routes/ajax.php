@@ -38,9 +38,9 @@ Route::delete(PageRegion::getUri('delete'), ['uses' => 'AjaxRegionController@del
 	->middleware('can:manage page layouts');
 
 /**
- * Blocks
+ * Blocks 
  */
 Route::patch(Page::getUri('patchBlocks'), ['uses' => 'AjaxPageController@patchBlocks'])
 	->middleware('can:manage page blocks');
-Route::get(Page::getUri('listBlocks'), ['uses' => 'AjaxPageController@listBlocks'])
+Route::get(Page::getUri('blocks'), ['uses' => 'AjaxPageController@listBlocks'])
 	->middleware('can:manage page blocks');

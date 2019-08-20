@@ -24,7 +24,8 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
 
         $page = Page::create([
             'name' => 'test',
-            'slug' => 'test1'
+            'slug' => 'test1',
+            'layout' => 'layout.app'
         ]);
 
         $region = PageRegion::create([
@@ -49,8 +50,8 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
             Permission::findOrCreate(['name' => 'manage page blocks', 'section' => 'Page']),
         ]);
 
-        $menu = Menu::findByName('admin-menu');
-        $structure = MenuItem::findByName('admin-menu.structure');
+        $menu = Menu::findByMachineName('admin-menu');
+        $structure = MenuItem::findByMachineName('admin-menu.structure');
         MenuItem::create([
             'name' => 'Pages',
             'url' => 'page.admin.pages',

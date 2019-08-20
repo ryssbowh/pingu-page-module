@@ -1,5 +1,6 @@
 <?php
 
+use Pingu\Block\Entities\Block;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 
@@ -14,6 +15,9 @@ use Pingu\Page\Entities\PageRegion;
 |
 */
 
+/**
+ * Pages
+ */
 Route::get(Page::getUri('index'), ['uses' => 'JsGridPageController@index'])
 	->name('page.admin.pages')
 	->middleware('can:view pages');
@@ -26,11 +30,21 @@ Route::get(Page::getUri('create'), ['uses' => 'AdminPageController@create'])
 	->middleware('can:add pages');
 Route::post(Page::getUri('store'), ['uses' => 'AdminPageController@store'])
 	->middleware('can:add pages');
+Route::get(Page::getUri('blocks'), ['uses' => 'AdminPageController@blocks'])
+	->middleware('can:manage page layouts');
 
 /**
- * Layouts
+ * Regions
  */
-Route::get(Page::getUri('editLayout'), ['uses' => 'AdminPageController@editLayout'])
+Route::get(PageRegion::getUri('index'), ['uses' => 'AdminRegionController@index'])
 	->middleware('can:view page layouts');
-Route::get(Page::getUri('editBlocks'), ['uses' => 'AdminPageController@editBlocks'])
-	->middleware('can:view page blocks');
+Route::get(PageRegion::getUri('create'), ['uses' => 'AdminRegionController@create'])
+	->middleware('can:manage page layouts');
+Route::post(PageRegion::getUri('store'), ['uses' => 'AdminRegionController@store'])
+	->middleware('can:manage page layouts');
+Route::patch(PageRegion::getUri('patch'), ['uses' => 'AdminRegionController@patch'])
+	->middleware('can:manage page layouts');
+Route::delete(PageRegion::getUri('delete'), ['uses' => 'AdminRegionController@delete'])
+	->middleware('can:manage page layouts');
+Route::get(PageRegion::getUri('delete'), ['uses' => 'AdminRegionController@confirmDelete'])
+	->middleware('can:manage page layouts');

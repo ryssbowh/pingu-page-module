@@ -3,18 +3,14 @@
 namespace Pingu\Page\Http\Controllers;
 
 use Pingu\Block\Entities\Block;
-use Pingu\Core\Http\Controllers\AjaxModelController;
+use Pingu\Core\Http\Controllers\BaseController;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageRegion;
 
-class AjaxPageController extends AjaxModelController
+class AjaxPageController extends BaseController
 {
-	public function getModel()
-	{
-		return Page::class;
-	}
 
-	public function patchBlocks(): array
+	public function patchBlocks()
 	{
 		$regions = $this->request->post()['regions'];
 		foreach($regions as $row){
@@ -31,7 +27,7 @@ class AjaxPageController extends AjaxModelController
 		return ['message' => 'Blocks have been saved'];
 	}
 
-	public function listBlocks(Page $page): array
+	public function listBlocks(Page $page)
 	{
 		$regions = $page->regions;
 		$out = [];

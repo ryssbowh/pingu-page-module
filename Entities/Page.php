@@ -134,41 +134,31 @@ class Page extends BaseModel implements
         ];
     }
 
-    public static function editLayoutUri()
-    {
-        return static::routeSlug().'/{'.static::routeSlug().'}/layout';
-    }
-
-    public static function editBlocksUri()
-    {
-        return static::routeSlug().'/{'.static::routeSlug().'}/blocks';
-    }
-
-    public static function patchBlocksUri()
-    {
-        return static::routeSlug().'/{'.static::routeSlug().'}/blocks';
-    }
-
-    public static function listBlocksUri()
-    {
-        return static::routeSlug().'/{'.static::routeSlug().'}/blocks';
-    }
-
     public function getContextualLinks(): array
     {
         return [
             'edit' => [
                 'title' => 'Edit',
-                'url' => $this::transformUri('edit', $this, config('core.adminPrefix'))
+                'url' => $this::makeUri('edit', $this, adminPrefix())
             ],
             'regions' => [
                 'title' => 'Layout',
-                'url' => $this::transformUri('editLayout', $this, config('core.adminPrefix')),
+                'url' => PageRegion::makeUri('index', $this, adminPrefix()),
             ],
             'blocks' => [
                 'title' => 'Blocks',
-                'url' => $this::transformUri('editBlocks', $this, config('core.adminPrefix')),
+                'url' => static::makeUri('blocks', $this, adminPrefix()),
             ]
         ];
+    }
+
+    public static function blocksUri()
+    {
+        return Page::routeSlug().'/{'.Page::routeSlug().'}/'.Block::routeSlugs();
+    }
+
+    public static function patchBlocksUri()
+    {
+        return Page::routeSlug().'/'.Block::routeSlugs();
     }
 }
