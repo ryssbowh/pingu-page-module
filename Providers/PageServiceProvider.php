@@ -18,8 +18,6 @@ class PageServiceProvider extends ModuleServiceProvider
      */
     protected $defer = false;
 
-    protected $modelFolder = 'Entities';
-
     /**
      * Boot the application events.
      *
@@ -27,7 +25,6 @@ class PageServiceProvider extends ModuleServiceProvider
      */
     public function boot()
     {
-        $this->registerModelSlugs(__DIR__.'/../'.$this->modelFolder);
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerFactories();

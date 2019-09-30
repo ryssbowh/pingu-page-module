@@ -97,7 +97,7 @@ class PageRegion extends BaseModel implements
     /**
      * @inheritDoc
      */
-    public static function friendlyName()
+    public static function friendlyName(): string
     {
         return 'Region';
     }

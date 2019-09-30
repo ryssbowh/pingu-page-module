@@ -37,7 +37,7 @@ class AjaxBlockController extends AjaxModelController
 		$post = $this->request->post();
 		$provider = $this->request->route()->parameter(BlockProvider::routeSlug());
 		$model = new $provider->class;
-		$validated = $model->validateRequest($post, $model->getAddFormFields());
+		$validated = $model->validateStoreRequest($post);
 
 		Block::unguard();
 		$model::unguard();
