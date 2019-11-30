@@ -25,33 +25,20 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
         $page = Page::create([
             'name' => 'test',
             'slug' => 'test1',
-            'layout' => 'layout.app'
-        ]);
-
-        $region = PageRegion::create([
-            'name' => 'Content',
-            'width' => 100, 
-            'height' => 400, 
-            'page_id' => $page->id 
+            'layout' => 'layouts.app'
         ]);
 
         $perm1 = Permission::findOrCreate(['name' => 'view pages', 'section' => 'Page']);
-        $perm2 = Permission::findOrCreate(['name' => 'view layouts', 'section' => 'Page']);
         
         Role::find(4)->givePermissionTo([
             $perm1,
-            $perm2,
             Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'view page layouts', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'manage page layouts', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'view page blocks', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'manage page blocks', 'section' => 'Page']),
         ]);
 
-        $menu = Menu::findByMachineName('admin-menu');
-        $structure = MenuItem::findByMachineName('admin-menu.structure');
         MenuItem::create([
             'name' => 'Pages',
             'url' => 'page.admin.pages',
@@ -59,7 +46,7 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
             'weight' => 1,
             'deletable' => 0,
             'permission_id' => $perm1->id
-        ], $menu, $structure);
+        ], 'admin-menu', 'admin-menu.structure');
     }
 
     /**

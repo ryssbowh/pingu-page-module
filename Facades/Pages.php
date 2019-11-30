@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Facade;
 
 class Pages extends Facade {
 
-	protected static function getFacadeAccessor() {
+    protected static function getFacadeAccessor() {
 
-		return 'page.pages';
+        return 'page.pages';
 
-	}
+    }
 
 }

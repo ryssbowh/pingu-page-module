@@ -11,12 +11,9 @@ use Route, Asset;
 
 class PageServiceProvider extends ModuleServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
+    protected $entities = [
+        Page::class
+    ];
 
     /**
      * Boot the application events.
@@ -32,6 +29,11 @@ class PageServiceProvider extends ModuleServiceProvider
 
         Asset::container('modules')->add('page-js', 'module-assets/Page.js');
         Asset::container('modules')->add('page-css', 'module-assets/Page.css');
+
+        \JsConfig::setMany([
+            'page.uris.addBlock' => Page::uris()->get('addBlock', ajaxPrefix()),
+            'page.uris.patchBlocks' => Page::uris()->get('patchBlocks', ajaxPrefix())
+        ]);
     }
 
     /**
@@ -41,8 +43,10 @@ class PageServiceProvider extends ModuleServiceProvider
      */
     public function register()
     {
+        $this->app->register(EventServiceProvider::class);
         $this->app->singleton('page.pages', \Pingu\Page\Pages::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->registerEntities($this->entities);
     }
 
     /**
