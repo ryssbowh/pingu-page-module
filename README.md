@@ -1,13 +1,9 @@
 # Page module
 
-Tools to create simple landing pages, define regions for them, and assign blocks to those regions.
-
-## TODO
+Tools to create simple landing pages.
 
 ## Pages
 
-Each page has a layout (list of regions), a url and a name.
+Each page has a layout defined by the front theme. It has a slug to be accessible through the front end.
 
-## Regions
-
-Blocks can be added to regions in the page 'blocks' contextual link in the back end
+Its content is made of a list of blocks.
