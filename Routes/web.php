@@ -10,10 +10,3 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-/**
- * Database pages
- */
-// if(pingu_installed()){
-// 	Pages::loadRoutes();
-// }
