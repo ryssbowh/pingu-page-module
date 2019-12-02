@@ -33,7 +33,7 @@ class PageActions extends BaseEntityActions
                     return $entity->uris()->make('content', $entity, adminPrefix());
                 },
                 'access' => function ($entity) {
-                    return \Gate::check('editContent', $entity);
+                    return \Gate::check('edit', $entity);
                 }
             ]
         ];

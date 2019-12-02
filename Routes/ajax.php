@@ -1,9 +1,4 @@
 <?php
-
-use Pingu\Page\Entities\Page;
-use Pingu\Page\Entities\PageLayout;
-use Pingu\Page\Entities\PageRegion;
-
 /*
 |--------------------------------------------------------------------------
 | Ajax Web Routes

@@ -2,6 +2,7 @@
 
 namespace Pingu\Page\Entities\Routes;
 
+use Pingu\Block\Entities\Block;
 use Pingu\Entity\Support\BaseEntityRoutes;
 
 class PageRoutes extends BaseEntityRoutes
@@ -17,10 +18,10 @@ class PageRoutes extends BaseEntityRoutes
     protected function middlewares(): array
     {
         return [
-            'admin.content' => 'can:editContent,@slug',
-            'ajax.blocks' => 'can:editContent,@slug',
-            'ajax.patchBlocks' => 'can:editContent,@slug',
-            'ajax.addBlock' => 'can:editContent,@slug'
+            'admin.content' => 'can:view,@slug',
+            'ajax.blocks' => 'can:view,@slug',
+            'ajax.patchBlocks' => ['can:edit,@slug','can:edit,'.Block::routeSlug()],
+            'ajax.addBlock' => ['can:edit,@slug','can:create,'.Block::routeSlug()]
         ];
     }
 

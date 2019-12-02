@@ -2,11 +2,13 @@
 
 namespace Pingu\Page\Entities;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Pingu\Block\Entities\Block;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Page\Entities\Policies\PagePolicy;
 use Pingu\Page\Exceptions\PageNotfoundException;
+use Pingu\Permissions\Entities\Permission;
 
 class Page extends Entity
 {
@@ -29,11 +31,33 @@ class Page extends Entity
         });
     }
 
-    public function findBlock($id): Block
+    /**
+     * Permission relationship
+     * 
+     * @return BelongsTo
+     */
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class);
+    }
+
+    /**
+     * Find a block for this page by id
+     * 
+     * @param int $id
+     * 
+     * @return Block
+     */
+    public function findBlock(int $id): Block
     {
         return $this->blocks()->where('id', $id)->first();
     }
 
+    /**
+     * Next block weight for this page
+     * 
+     * @return int
+     */
     public function getNextBlockWeight(): int
     {
         $biggest = $this->blocks->last();

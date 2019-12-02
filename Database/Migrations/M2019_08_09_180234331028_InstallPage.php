@@ -18,6 +18,8 @@ class M2019_08_09_180234331028_InstallPage extends Migration
             $table->string('name');
             $table->string('layout');
             $table->string('slug')->unique();
+            $table->unsignedInteger('permission_id')->nullable();
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('set null');
             $table->timestamps();
             $table->softDeletes();
         });

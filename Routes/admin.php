@@ -1,9 +1,5 @@
 <?php
 
-use Pingu\Block\Entities\Block;
-use Pingu\Page\Entities\Page;
-use Pingu\Page\Entities\PageRegion;
-
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes

@@ -32,11 +32,9 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
         
         Role::find(4)->givePermissionTo([
             $perm1,
-            Permission::findOrCreate(['name' => 'edit pages', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'add pages', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'view page blocks', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'manage page blocks', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'edit pages', 'helper' => 'Will need block permissions to manage pages blocks', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'create pages', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page'])
         ]);
 
         MenuItem::create([

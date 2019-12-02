@@ -17,30 +17,33 @@ class PagePolicy extends Policy
     public function index(?User $user)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view '. Page::friendlyNames());
+        return $user->hasPermissionTo('view pages');
     }
 
     public function view(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('view '.$entity::friendlyNames());
+        if ($permission = $entity->permission) {
+            return $user->hasPermissionTo($permission);
+        }
+        return true;
     }
 
     public function edit(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('edit '.$entity::friendlyNames());
+        return $user->hasAllPermissions('edit pages');
     }
 
     public function delete(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('delete '.$entity::friendlyNames());
+        return $user->hasPermissionTo('delete pages');
     }
 
     public function create(?User $user)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasPermissionTo('create '. Page::friendlyNames());
+        return $user->hasPermissionTo('create pages');
     }
 }
