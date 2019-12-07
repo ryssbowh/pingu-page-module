@@ -30,10 +30,12 @@ class PageServiceProvider extends ModuleServiceProvider
         Asset::container('modules')->add('page-js', 'module-assets/Page.js');
         Asset::container('modules')->add('page-css', 'module-assets/Page.css');
 
-        \JsConfig::setMany([
+        \JsConfig::setMany(
+            [
             'page.uris.addBlock' => Page::uris()->get('addBlock', ajaxPrefix()),
             'page.uris.patchBlocks' => Page::uris()->get('patchBlocks', ajaxPrefix())
-        ]);
+            ]
+        );
     }
 
     /**

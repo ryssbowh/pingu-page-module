@@ -6,5 +6,5 @@ use Pingu\Forms\Contracts\FormableModel;
 
 interface FormableBlockContract extends FormableModel
 {
-	
+    
 }

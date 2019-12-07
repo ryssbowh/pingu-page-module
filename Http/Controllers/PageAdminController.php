@@ -19,23 +19,27 @@ class PageAdminController extends AdminEntityController
     protected function getStoreValidator(Entity $entity, ?BundleContract $bundle): Validator
     {
         $validator = $entity->validator()->makeValidator($this->request->except('_token'), false);
-        $validator->after(function ($validator) {
-            $slug = $validator->getData()['slug'];
-            if (route_exists($slug)) {
-                $validator->errors()->add('slug', 'The route '.$slug.' already exists');
+        $validator->after(
+            function ($validator) {
+                $slug = $validator->getData()['slug'];
+                if (route_exists($slug)) {
+                    $validator->errors()->add('slug', 'The route '.$slug.' already exists');
+                }
             }
-        });
+        );
         return $validator;
     }
 
     public function content(Page $page)
     {
         \ContextualLinks::addFromObject($page);
-        return view('page::content')->with([
+        return view('page::content')->with(
+            [
             'page' => $page,
             'blocks' => \Blocks::registeredBlocksBySection(),
             'blockModel' => Block::class,
             'saveBlocksUri' => Page::uris()->make('patchBlocks', $page, adminPrefix())
-        ]);
+            ]
+        );
     }   
 }

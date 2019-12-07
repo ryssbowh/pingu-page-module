@@ -4,5 +4,7 @@ namespace Pingu\Page\Contracts;
 
 class Blockprovider
 {
-	public function getBlock(){}
+    public function getBlock()
+    {
+    }
 }

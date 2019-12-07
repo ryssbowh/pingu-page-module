@@ -13,27 +13,31 @@ class M2019_08_09_180234331028_InstallPage extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('layout');
-            $table->string('slug')->unique();
-            $table->unsignedInteger('permission_id')->nullable();
-            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('set null');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        Schema::create(
+            'pages', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->string('layout');
+                $table->string('slug')->unique();
+                $table->unsignedInteger('permission_id')->nullable();
+                $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('set null');
+                $table->timestamps();
+                $table->softDeletes();
+            }
+        );
 
-        Schema::create('block_page', function (Blueprint $table) {
-            $table->increments('id');
-            $table->published();
-            $table->unsignedInteger('page_id')->index();
-            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
-            $table->unsignedInteger('block_id')->index();
-            $table->foreign('block_id')->references('id')->on('blocks')->onDelete('cascade');
-            $table->unsignedInteger('weight')->unsigned();
-            $table->timestamps();
-        });
+        Schema::create(
+            'block_page', function (Blueprint $table) {
+                $table->increments('id');
+                $table->published();
+                $table->unsignedInteger('page_id')->index();
+                $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+                $table->unsignedInteger('block_id')->index();
+                $table->foreign('block_id')->references('id')->on('blocks')->onDelete('cascade');
+                $table->unsignedInteger('weight')->unsigned();
+                $table->timestamps();
+            }
+        );
 
         // Schema::create('page_regions', function (Blueprint $table) {
         //     $table->increments('id');

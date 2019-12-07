@@ -10,9 +10,11 @@ class DbPageController extends BaseController
 {
     public function view(Page $page)
     {
-        return view('page::page')->with([
+        return view('page::page')->with(
+            [
             'page' => $page,
             'blocks' => \Pages::blocks($page, true)
-        ]);
+            ]
+        );
     }
 }

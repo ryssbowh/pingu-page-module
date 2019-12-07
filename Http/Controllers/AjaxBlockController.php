@@ -44,9 +44,11 @@ class AjaxBlockController extends AjaxModelController
 
         $model->formFill($validated)->save();
 
-        $block = new Block([
+        $block = new Block(
+            [
             'system' => false
-        ]);
+            ]
+        );
         $block->provider()->associate($provider);
         $block->instance()->associate($model);
         $block->save();

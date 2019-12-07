@@ -24,9 +24,11 @@ class Pages
      */
     public function pages(): Collection
     {
-        return \ArrayCache::rememberForever($this->pageCacheKey, function () {
-            return $this->migrated ? Page::all() : collect();
-        });
+        return \ArrayCache::rememberForever(
+            $this->pageCacheKey, function () {
+                return $this->migrated ? Page::all() : collect();
+            }
+        );
     }
 
     /**
@@ -38,17 +40,21 @@ class Pages
      */
     public function blocks(Page $page, $checkPerms = false): Collection
     {
-        $blocks = \ArrayCache::rememberForever($this->blocksCacheKey.'.'.$page->id, function () use ($page) {
-            return $page->blocks;
-        });
+        $blocks = \ArrayCache::rememberForever(
+            $this->blocksCacheKey.'.'.$page->id, function () use ($page) {
+                return $page->blocks;
+            }
+        );
         if (!$checkPerms) {
             return $blocks;
         }
         $role = \Permissions::getPermissionableModel();
-        return $blocks->filter(function ($block) use ($role) {
-            $perm = $block->permission;
-            return ((is_null($perm) or $role->hasPermissionTo($perm)) and $block->active);
-        });
+        return $blocks->filter(
+            function ($block) use ($role) {
+                $perm = $block->permission;
+                return ((is_null($perm) or $role->hasPermissionTo($perm)) and $block->active);
+            }
+        );
     }
 
     /**

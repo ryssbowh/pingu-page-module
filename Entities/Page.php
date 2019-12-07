@@ -30,13 +30,15 @@ class Page extends Entity implements HasRevisionsContract
     {
         parent::boot();
 
-        static::deleted(function ($page) {
-            foreach ($page->blocks as $block) {
-                $block->delete();
+        static::deleted(
+            function ($page) {
+                foreach ($page->blocks as $block) {
+                    $block->delete();
+                }
+                \Pages::clearBlockCache($page);
+                \Pages::clearPageCache($page);
             }
-            \Pages::clearBlockCache($page);
-            \Pages::clearPageCache($page);
-        });
+        );
     }
 
     public function getRouteKeyName()

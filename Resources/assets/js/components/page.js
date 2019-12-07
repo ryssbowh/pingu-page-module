@@ -2,9 +2,10 @@ import * as h from 'PinguHelpers';
 
 const Page = (() => {
 
-	function init(){ 
-		h.log('Page initialized');
-	};
+    function init()
+    { 
+        h.log('Page initialized');
+    };
 
     function addBlockRequest(page, blockId)
     {
@@ -13,10 +14,10 @@ const Page = (() => {
         return h.post(uri);
     }
 
-	return {
-		init: init,
+    return {
+        init: init,
         addBlockRequest: addBlockRequest
-	};
+    };
 
 })();
 

@@ -22,29 +22,35 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
     {
         Model::unguard();
 
-        $page = Page::create([
+        $page = Page::create(
+            [
             'name' => 'test',
             'slug' => 'test1',
             'layout' => 'layouts.app'
-        ]);
+            ]
+        );
 
         $perm1 = Permission::findOrCreate(['name' => 'view pages', 'section' => 'Page']);
         
-        Role::find(4)->givePermissionTo([
+        Role::find(4)->givePermissionTo(
+            [
             $perm1,
             Permission::findOrCreate(['name' => 'edit pages', 'helper' => 'Will need block permissions to manage pages blocks', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'create pages', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page'])
-        ]);
+            ]
+        );
 
-        MenuItem::create([
+        MenuItem::create(
+            [
             'name' => 'Pages',
             'url' => 'page.admin.pages',
             'active' => 1,
             'weight' => 1,
             'deletable' => 0,
             'permission_id' => $perm1->id
-        ], 'admin-menu', 'admin-menu.structure');
+            ], 'admin-menu', 'admin-menu.structure'
+        );
     }
 
     /**
