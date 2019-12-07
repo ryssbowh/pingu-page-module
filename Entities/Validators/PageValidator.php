@@ -11,7 +11,8 @@ class PageValidator extends BaseFieldsValidator
         return [
             'name' => 'required',
             'slug' => 'required|unique:pages,slug,'.$this->object->id,
-            'layout' => 'required'
+            'layout' => 'required',
+            'published' => 'boolean'
         ];
     }
 

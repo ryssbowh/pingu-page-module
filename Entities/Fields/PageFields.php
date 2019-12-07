@@ -2,6 +2,7 @@
 
 namespace Pingu\Page\Entities\Fields;
 
+use Pingu\Field\BaseFields\Boolean;
 use Pingu\Field\BaseFields\Model;
 use Pingu\Field\BaseFields\Text;
 use Pingu\Field\BaseFields\_List;
@@ -40,7 +41,8 @@ class PageFields extends BaseFieldRepository
                     'separator' => ' : ',
                     'noValueLabel' => 'None'
                 ]
-            )
+            ),
+            new Boolean('published')
         ];
     }
 }

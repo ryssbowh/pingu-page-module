@@ -34,7 +34,6 @@ class PageServiceProvider extends ModuleServiceProvider
             'page.uris.addBlock' => Page::uris()->get('addBlock', ajaxPrefix()),
             'page.uris.patchBlocks' => Page::uris()->get('patchBlocks', ajaxPrefix())
         ]);
-        \Pages::loadRoutes();
     }
 
     /**

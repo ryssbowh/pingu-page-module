@@ -18,19 +18,6 @@ class Pages
     }
 
     /**
-     * Load all pages routes
-     * 
-     * @return void
-     */
-    public function loadRoutes()
-    {
-        $pages = $this->pages();
-        foreach ($pages as $page) { 
-            \Route::get('/{'.$page->slug.'}', ['uses' => '\Pingu\Page\Http\Controllers\DbPageController@show']);
-        }
-    }
-
-    /**
      * Get all pages from Cache
      * 
      * @return Collection
@@ -49,10 +36,18 @@ class Pages
      * 
      * @return Collection
      */
-    public function blocks(Page $page): Collection
+    public function blocks(Page $page, $checkPerms = false): Collection
     {
-        return \ArrayCache::rememberForever($this->blocksCacheKey.'.'.$page->id, function () use ($page) {
+        $blocks = \ArrayCache::rememberForever($this->blocksCacheKey.'.'.$page->id, function () use ($page) {
             return $page->blocks;
+        });
+        if (!$checkPerms) {
+            return $blocks;
+        }
+        $role = \Permissions::getPermissionableModel();
+        return $blocks->filter(function ($block) use ($role) {
+            $perm = $block->permission;
+            return ((is_null($perm) or $role->hasPermissionTo($perm)) and $block->active);
         });
     }
 

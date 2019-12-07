@@ -8,12 +8,11 @@ use Pingu\Core\Http\Controllers\BaseController;
 
 class DbPageController extends BaseController
 {
-	public function show(string $slug)
-	{
-		$page = Page::findBySlug($slug);
-		return view('page::page')->with([
-			'page' => $page,
-			'regions' => $page->regions
-		]);
-	}
+    public function view(Page $page)
+    {
+        return view('page::page')->with([
+            'page' => $page,
+            'blocks' => \Pages::blocks($page, true)
+        ]);
+    }
 }

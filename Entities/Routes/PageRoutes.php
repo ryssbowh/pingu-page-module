@@ -4,9 +4,13 @@ namespace Pingu\Page\Entities\Routes;
 
 use Pingu\Block\Entities\Block;
 use Pingu\Entity\Support\BaseEntityRoutes;
+use Pingu\Page\Http\Controllers\DbPageController;
 
 class PageRoutes extends BaseEntityRoutes
 {
+    /**
+     * @inheritDoc
+     */
     protected function routes(): array
     {
         return [
@@ -15,16 +19,23 @@ class PageRoutes extends BaseEntityRoutes
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function middlewares(): array
     {
         return [
-            'admin.content' => 'can:view,@slug',
-            'ajax.blocks' => 'can:view,@slug',
-            'ajax.patchBlocks' => ['can:edit,@slug','can:edit,'.Block::routeSlug()],
-            'ajax.addBlock' => ['can:edit,@slug','can:create,'.Block::routeSlug()]
+            'content' => 'can:view,@slug',
+            'blocks' => 'can:view,@slug',
+            'patchBlocks' => ['can:edit,@slug','can:edit,'.Block::routeSlug()],
+            'addBlock' => ['can:edit,@slug','can:create,'.Block::routeSlug()],
+            'view' => ['can:view,@slug', 'published:@slug']
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function methods(): array
     {
         return [
@@ -33,6 +44,19 @@ class PageRoutes extends BaseEntityRoutes
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
+    protected function controllers(): array
+    {
+        return [
+            'web.view' => DbPageController::class
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function names(): array
     {
         return [

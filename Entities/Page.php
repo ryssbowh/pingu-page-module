@@ -6,17 +6,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Pingu\Block\Entities\Block;
 use Pingu\Entity\Entities\Entity;
+use Pingu\Field\Contracts\HasRevisionsContract;
+use Pingu\Field\Traits\HasRevisions;
 use Pingu\Page\Entities\Policies\PagePolicy;
 use Pingu\Page\Exceptions\PageNotfoundException;
 use Pingu\Permissions\Entities\Permission;
 
-class Page extends Entity
+class Page extends Entity implements HasRevisionsContract
 {
+    use HasRevisions;
+    
     protected $fillable = ['name', 'slug', 'layout'];
 
     protected $visible = ['id', 'name', 'slug', 'layout'];
 
-    protected $with = [];
+    protected $casts = [
+        'published' => 'bool'
+    ];
 
     public $adminListFields = ['name', 'slug'];
 
@@ -28,7 +34,20 @@ class Page extends Entity
             foreach ($page->blocks as $block) {
                 $block->delete();
             }
+            \Pages::clearBlockCache($page);
+            \Pages::clearPageCache($page);
         });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getPermissionAttribute()
+    {
+        $value = $this->attributes['permission_id'];
+        return $value ? \Permissions::getById($value) : null;
     }
 
     /**

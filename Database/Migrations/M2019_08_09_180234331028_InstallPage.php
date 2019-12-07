@@ -26,6 +26,7 @@ class M2019_08_09_180234331028_InstallPage extends Migration
 
         Schema::create('block_page', function (Blueprint $table) {
             $table->increments('id');
+            $table->published();
             $table->unsignedInteger('page_id')->index();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->unsignedInteger('block_id')->index();

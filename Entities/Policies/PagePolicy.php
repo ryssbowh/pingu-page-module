@@ -22,8 +22,8 @@ class PagePolicy extends Policy
 
     public function view(?User $user, Entity $entity)
     {
-        $user = $this->userOrGuest($user);
         if ($permission = $entity->permission) {
+            $user = $this->userOrGuest($user);
             return $user->hasPermissionTo($permission);
         }
         return true;
