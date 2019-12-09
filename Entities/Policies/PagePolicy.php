@@ -2,12 +2,12 @@
 
 namespace Pingu\Page\Entities\Policies;
 
-use Pingu\Page\Entities\Page;
-use Pingu\Core\Support\Policy;
 use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\BaseEntityPolicy;
+use Pingu\Page\Entities\Page;
 use Pingu\User\Entities\User;
 
-class PagePolicy extends Policy
+class PagePolicy extends BaseEntityPolicy
 {
     protected function userOrGuest(?User $user)
     {
