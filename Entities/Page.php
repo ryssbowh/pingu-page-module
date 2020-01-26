@@ -48,7 +48,7 @@ class Page extends Entity implements HasRevisionsContract
 
     public function getPermissionAttribute()
     {
-        $value = $this->attributes['permission_id'];
+        $value = $this->attributes['permission_id'] ?? null;
         return $value ? \Permissions::getById($value) : null;
     }
 
