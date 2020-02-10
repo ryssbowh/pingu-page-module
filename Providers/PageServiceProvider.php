@@ -61,6 +61,9 @@ class PageServiceProvider extends ModuleServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'page'
         );
+        $this->publishes([
+            __DIR__.'/../Config/config.php' => config_path('module-page.php')
+        ], 'config');
     }
 
     /**
