@@ -6,4 +6,4 @@ Tools to create simple landing pages.
 
 Each page has a layout defined by the front theme. It has a slug to be accessible through the front end.
 
-Its content is made of a list of blocks.
+Its content is made of a list of blocks as defined by the Block API.
