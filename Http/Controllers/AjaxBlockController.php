@@ -29,7 +29,7 @@ class AjaxBlockController extends AjaxModelController
             $provider->class
         );
         $form->end();
-        return ['form' => $form->renderAsString()];
+        return ['html' => $form->renderAsString()];
     }
 
     public function store(): array
@@ -64,7 +64,7 @@ class AjaxBlockController extends AjaxModelController
             $block->instance
         );
         $form->end();
-        return ['form' => $form->renderAsString()];
+        return ['html' => $form->renderAsString()];
     }
 
     public function update(BaseModel $block): array

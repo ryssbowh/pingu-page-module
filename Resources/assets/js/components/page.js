@@ -1,5 +1,3 @@
-import * as h from 'PinguHelpers';
-
 const Page = (() => {
 
     function init()
@@ -9,9 +7,9 @@ const Page = (() => {
 
     function addBlockRequest(page, blockId)
     {
-        let uri = h.config('page.uris.addBlock');
-        uri = h.replaceUriSlugs(uri, [page, blockId]);
-        return h.post(uri);
+        let uri = Config.config('page.uris.addBlock');
+        uri = Helpers.replaceUriSlugs(uri, [page, blockId]);
+        return Helpers.post(uri);
     }
 
     return {
