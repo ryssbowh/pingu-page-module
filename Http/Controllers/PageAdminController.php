@@ -33,7 +33,7 @@ class PageAdminController extends AdminEntityController
     public function content(Page $page)
     {
         \ContextualLinks::addFromObject($page);
-        return view('page::content')->with(
+        return view('pages.page.content')->with(
             [
             'page' => $page,
             'blocks' => \Blocks::registeredBlocksBySection(),
