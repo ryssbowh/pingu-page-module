@@ -62,8 +62,8 @@ class PageServiceProvider extends ModuleServiceProvider
             __DIR__.'/../Config/config.php', 'page'
         );
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('module-page.php')
-        ], 'config');
+            __DIR__.'/../Config/config.php' => config_path('page.php')
+        ], 'page-config');
     }
 
     /**
