@@ -25,7 +25,7 @@ class PageServiceProvider extends ModuleServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerFactories();
-        $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'page');
+        $this->loadModuleViewsFrom(__DIR__ . '/../Resources/views', 'page');
 
         Asset::container('modules')->add('page-js', 'module-assets/Page.js');
         Asset::container('modules')->add('page-css', 'module-assets/Page.css');
