@@ -2,6 +2,7 @@
 
 namespace Pingu\Page\Entities\Policies;
 
+use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Entities\Entity;
 use Pingu\Entity\Support\BaseEntityPolicy;
 use Pingu\Page\Entities\Page;
@@ -41,7 +42,7 @@ class PagePolicy extends BaseEntityPolicy
         return $user->hasPermissionTo('delete pages');
     }
 
-    public function create(?User $user)
+    public function create(?User $user, ?BundleContract $bundle = null)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('create pages');
