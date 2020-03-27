@@ -3,7 +3,7 @@
 namespace Pingu\Page\Entities\Routes;
 
 use Pingu\Block\Entities\Block;
-use Pingu\Entity\Support\BaseEntityRoutes;
+use Pingu\Entity\Support\Routes\BaseEntityRoutes;
 use Pingu\Page\Http\Controllers\DbPageController;
 
 class PageRoutes extends BaseEntityRoutes
