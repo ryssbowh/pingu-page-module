@@ -53,14 +53,4 @@ class PageRoutes extends BaseEntityRoutes
             'web.view' => DbPageController::class
         ];
     }
-
-    /**
-     * @inheritDoc
-     */
-    protected function names(): array
-    {
-        return [
-            'admin.index' => 'page.admin.pages'
-        ];
-    }
 }

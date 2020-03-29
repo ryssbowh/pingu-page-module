@@ -44,7 +44,7 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
         MenuItem::create(
             [
             'name' => 'Pages',
-            'url' => 'page.admin.pages',
+            'url' => 'page.admin.index',
             'active' => 1,
             'weight' => 1,
             'deletable' => 0,

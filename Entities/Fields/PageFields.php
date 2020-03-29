@@ -35,6 +35,7 @@ class PageFields extends BaseFieldRepository
             new Model(
                 'permission',
                 [
+                    'model' => Permission::class,
                     'label' => 'Viewing permission',
                     'items' => \Permissions::all()->sortBy('section'),
                     'textField' => ['section', 'name'],

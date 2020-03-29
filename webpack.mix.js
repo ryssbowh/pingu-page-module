@@ -11,7 +11,7 @@ mix.webpackConfig(
     {
         resolve: {
             alias: {
-                'pingu-page': path.resolve(assetPath + '/js/components', './page')
+                'PageModule': path.resolve(assetPath + '/js/components', './page')
             }
         }
     }

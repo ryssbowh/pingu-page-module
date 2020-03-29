@@ -36,7 +36,7 @@ class Page extends Entity implements HasRevisionsContract
                     $block->delete();
                 }
                 \Pages::clearBlockCache($page);
-                \Pages::clearPageCache($page);
+                \Pages::clearPageCache();
             }
         );
     }
