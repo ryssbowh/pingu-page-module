@@ -3,7 +3,7 @@
 namespace Pingu\Page\Entities\Uris;
 
 use Pingu\Block\Entities\Block;
-use Pingu\Entity\Support\BaseEntityUris;
+use Pingu\Entity\Support\Uris\BaseEntityUris;
 
 class PageUris extends BaseEntityUris
 {

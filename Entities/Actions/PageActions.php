@@ -2,7 +2,7 @@
 
 namespace Pingu\Page\Entities\Actions;
 
-use Pingu\Entity\Support\BaseEntityActions;
+use Pingu\Entity\Support\Actions\BaseEntityActions;
 
 class PageActions extends BaseEntityActions
 {

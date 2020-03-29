@@ -48,7 +48,7 @@ class Pages
         if (!$checkPerms) {
             return $blocks;
         }
-        $role = \Permissions::getPermissionableModel();
+        $role = \Permissions::getPermissionable();
         return $blocks->filter(
             function ($block) use ($role) {
                 $perm = $block->permission;

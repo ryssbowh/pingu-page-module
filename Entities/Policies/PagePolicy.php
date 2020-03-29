@@ -3,18 +3,13 @@
 namespace Pingu\Page\Entities\Policies;
 
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\Entity;
-use Pingu\Entity\Support\BaseEntityPolicy;
+use Pingu\Entity\Support\Entity;
+use Pingu\Entity\Support\Policies\BaseEntityPolicy;
 use Pingu\Page\Entities\Page;
 use Pingu\User\Entities\User;
 
 class PagePolicy extends BaseEntityPolicy
 {
-    protected function userOrGuest(?User $user)
-    {
-        return $user ? $user : \Permissions::guestRole();
-    }
-
     public function index(?User $user)
     {
         $user = $this->userOrGuest($user);
@@ -33,7 +28,7 @@ class PagePolicy extends BaseEntityPolicy
     public function edit(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
-        return $user->hasAllPermissions('edit pages');
+        return $user->hasPermissionTo('edit pages');
     }
 
     public function delete(?User $user, Entity $entity)

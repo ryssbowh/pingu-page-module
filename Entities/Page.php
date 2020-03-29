@@ -5,7 +5,7 @@ namespace Pingu\Page\Entities;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Pingu\Block\Entities\Block;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Field\Contracts\HasRevisionsContract;
 use Pingu\Field\Traits\HasRevisions;
 use Pingu\Page\Entities\Policies\PagePolicy;

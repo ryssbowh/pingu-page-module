@@ -5,7 +5,7 @@ namespace Pingu\Page\Http\Controllers;
 use Illuminate\Validation\Validator;
 use Pingu\Block\Entities\Block;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Entities\Entity;
+use Pingu\Entity\Support\Entity;
 use Pingu\Entity\Http\Controllers\AdminEntityController;
 use Pingu\Page\Entities\Page;
 
