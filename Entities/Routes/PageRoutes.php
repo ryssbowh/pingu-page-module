@@ -8,14 +8,20 @@ use Pingu\Page\Http\Controllers\DbPageController;
 
 class PageRoutes extends BaseEntityRoutes
 {
+    protected $inheritsEntityRoutes = false;
+
     /**
      * @inheritDoc
      */
     protected function routes(): array
     {
         return [
-            'admin' => ['content'],
-            'ajax' => ['blocks', 'addBlock','patchBlocks']
+            'admin' => [
+                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete', 'content'
+            ],
+            'ajax' => [
+                'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'delete', 'blocks', 'addBlock', 'patchBlocks'
+            ]
         ];
     }
 
@@ -28,8 +34,7 @@ class PageRoutes extends BaseEntityRoutes
             'content' => 'can:view,@slug',
             'blocks' => 'can:view,@slug',
             'patchBlocks' => ['can:edit,@slug','can:edit,'.Block::routeSlug()],
-            'addBlock' => ['can:edit,@slug','can:create,'.Block::routeSlug()],
-            'view' => ['can:view,@slug', 'published:@slug']
+            'addBlock' => ['can:edit,@slug','can:create,'.Block::routeSlug()]
         ];
     }
 
@@ -41,16 +46,6 @@ class PageRoutes extends BaseEntityRoutes
         return [
             'patchBlocks' => 'patch',
             'addBlock' => 'post'
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function controllers(): array
-    {
-        return [
-            'web.view' => DbPageController::class
         ];
     }
 }

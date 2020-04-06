@@ -5,8 +5,9 @@ namespace Pingu\Page\Http\Controllers;
 use Illuminate\Validation\Validator;
 use Pingu\Block\Entities\Block;
 use Pingu\Entity\Contracts\BundleContract;
-use Pingu\Entity\Support\Entity;
 use Pingu\Entity\Http\Controllers\AdminEntityController;
+use Pingu\Entity\Support\Entity;
+use Pingu\Forms\Support\Form;
 use Pingu\Page\Entities\Page;
 
 class PageAdminController extends AdminEntityController
@@ -41,5 +42,10 @@ class PageAdminController extends AdminEntityController
             'saveBlocksUri' => Page::uris()->make('patchBlocks', $page, adminPrefix())
             ]
         );
-    }   
+    }
+
+    protected function afterEditFormCreated(Form $form, Entity $entity)
+    {
+        $form->getElement('machineName')->option('disabled', true);
+    }
 }

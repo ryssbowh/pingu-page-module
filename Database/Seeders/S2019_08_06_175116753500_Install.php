@@ -37,7 +37,8 @@ class S2019_08_06_175116753500_Install extends MigratableSeeder
             $perm1,
             Permission::findOrCreate(['name' => 'edit pages', 'helper' => 'Will need block permissions to manage pages blocks', 'section' => 'Page']),
             Permission::findOrCreate(['name' => 'create pages', 'section' => 'Page']),
-            Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page'])
+            Permission::findOrCreate(['name' => 'delete pages', 'section' => 'Page']),
+            Permission::findOrCreate(['name' => 'view unpublished pages', 'section' => 'Page'])
             ]
         );
 

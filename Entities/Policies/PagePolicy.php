@@ -10,33 +10,51 @@ use Pingu\User\Entities\User;
 
 class PagePolicy extends BaseEntityPolicy
 {
+    /**
+     * @inheritDoc
+     */
     public function index(?User $user)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('view pages');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function view(?User $user, Entity $entity)
     {
+        $user = $this->userOrGuest($user);
+        if (!$entity->published and !$user->hasPermissionTo('view unpublished pages')) {
+            return false;
+        }
         if ($permission = $entity->permission) {
-            $user = $this->userOrGuest($user);
             return $user->hasPermissionTo($permission);
         }
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function edit(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('edit pages');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function delete(?User $user, Entity $entity)
     {
         $user = $this->userOrGuest($user);
         return $user->hasPermissionTo('delete pages');
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(?User $user, ?BundleContract $bundle = null)
     {
         $user = $this->userOrGuest($user);

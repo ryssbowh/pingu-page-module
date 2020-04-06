@@ -7,6 +7,7 @@ use Pingu\Field\BaseFields\Model;
 use Pingu\Field\BaseFields\Text;
 use Pingu\Field\BaseFields\_List;
 use Pingu\Field\Support\FieldRepository\BaseFieldRepository;
+use Pingu\Permissions\Entities\Permission;
 
 class PageFields extends BaseFieldRepository
 {
@@ -17,6 +18,14 @@ class PageFields extends BaseFieldRepository
                 'name',
                 [
                     'required' => true
+                ]
+            ),
+            new Text(
+                'machineName',
+                [
+                    'label' => 'Machine Name',
+                    'required' => true,
+                    'dashifyFrom' => 'name'
                 ]
             ),
             new Text(

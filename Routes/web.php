@@ -1,5 +1,7 @@
 <?php
 
+use Pingu\Page\Entities\Page;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,3 +12,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+foreach (Page::all() as $page) {
+    Route::get($page->slug, ['uses' => 'PageWebController@view'])
+        ->name('pages.'.$page->machineName);
+}
