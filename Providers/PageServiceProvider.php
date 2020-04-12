@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factory;
 use Pingu\Core\Support\ModuleServiceProvider;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
+use Pingu\Page\Observers\PageObserver;
 use Pingu\Page\Providers\RouteServiceProvider;
 use Route, Asset;
 
@@ -22,10 +23,13 @@ class PageServiceProvider extends ModuleServiceProvider
      */
     public function boot()
     {
+        $this->registerEntities($this->entities);
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerFactories();
         $this->loadModuleViewsFrom(__DIR__ . '/../Resources/views', 'page');
+        \PinguCaches::register('page', 'Page', config('page.array-keys'));
+        Page::observe(PageObserver::class);
 
         Asset::container('modules')->add('page-js', 'module-assets/Page.js');
         Asset::container('modules')->add('page-css', 'module-assets/Page.css');
@@ -45,10 +49,7 @@ class PageServiceProvider extends ModuleServiceProvider
      */
     public function register()
     {
-        $this->app->register(EventServiceProvider::class);
         $this->app->singleton('page.pages', \Pingu\Page\Pages::class);
-        $this->app->register(RouteServiceProvider::class);
-        $this->registerEntities($this->entities);
     }
 
     /**

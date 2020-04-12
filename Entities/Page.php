@@ -36,21 +36,6 @@ class Page extends Entity implements HasRevisionsContract
 
     public $descriptiveField = 'name';
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleted(
-            function ($page) {
-                foreach ($page->blocks as $block) {
-                    $block->delete();
-                }
-                \Pages::clearBlockCache($page);
-                \Pages::clearPageCache();
-            }
-        );
-    }
-
     /**
      * @inheritDoc
      */

@@ -2,5 +2,8 @@
 
 return [
     'name' => 'Page',
-    'cache-key' => 'pages.pages'
+    'cache-keys' => [
+        'pages' => 'page.pages',
+        'blocks' => 'page.blocks'
+    ]
 ];

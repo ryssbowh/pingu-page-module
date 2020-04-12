@@ -10,7 +10,7 @@ class PageValidator extends BaseFieldsValidator
     {
         return [
             'name' => 'required',
-            'machineName' => 'required',
+            'machineName' => 'required|unique:pages,machineName,'.$this->object->id,
             'slug' => 'required|unique:pages,slug,'.$this->object->id,
             'layout' => 'required',
             'published' => 'boolean'
@@ -23,4 +23,4 @@ class PageValidator extends BaseFieldsValidator
 
         ];
     }
-}
+} 

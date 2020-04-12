@@ -2,34 +2,14 @@
 
 namespace Pingu\Page;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Pingu\Block\Entities\Block;
 use Pingu\Page\Entities\Page;
+use Pingu\Page\Http\Controllers\PageWebController;
 
 class Pages
 {
-    protected $migrated = false;
-    protected $pageCacheKey = 'page.pages';
-    protected $blocksCacheKey = 'page.blocks';
-
-    public function __construct()
-    {
-        $this->migrated = \Schema::hasTable('pages');
-    }
-
-    /**
-     * Get all pages from Cache
-     * 
-     * @return Collection
-     */
-    public function pages(): Collection
-    {
-        return \ArrayCache::rememberForever(
-            $this->pageCacheKey, function () {
-                return $this->migrated ? Page::all() : collect();
-            }
-        );
-    }
+    protected $pages;
 
     /**
      * Get a page's blocks from cache
@@ -40,11 +20,8 @@ class Pages
      */
     public function blocks(Page $page, $checkPerms = false): Collection
     {
-        $blocks = \ArrayCache::rememberForever(
-            $this->blocksCacheKey.'.'.$page->id, function () use ($page) {
-                return $page->blocks;
-            }
-        );
+        $blocks = $this->allBlocks($page);
+
         if (!$checkPerms) {
             return $blocks;
         }
@@ -53,6 +30,52 @@ class Pages
             function ($block) use ($role) {
                 $perm = $block->permission;
                 return ((is_null($perm) or $role->hasPermissionTo($perm)) and $block->active);
+            }
+        );
+    }
+
+    /**
+     * Registers all pages in laravel route system
+     */
+    public function registerRoutes()
+    {
+        foreach ($this->all() as $page) {
+            \Route::get($page->slug, ['uses' => PageWebController::class.'@view'])
+                ->name('pages.'.$page->machineName)
+                ->middleware('web');
+        }
+    }
+
+    /**
+     * get all pages
+     * 
+     * @return Collection
+     */
+    public function all(): Collection
+    {
+        if (is_null($this->pages)) {
+            $this->pages = \ArrayCache::rememberForever(
+                config('page.cache-keys.pages'), 
+                function () {
+                    return Page::all();
+                }
+            );
+        }
+        return $this->pages;
+    }
+
+    /**
+     * Get all blocks for a page
+     * 
+     * @param Page $page
+     * 
+     * @return Collection
+     */
+    public function allBlocks(Page $page): Collection
+    {
+        return \ArrayCache::rememberForever(
+            config('page.cache-keys.blocks').'.'.$page->id, function () use ($page) {
+                return $page->blocks;
             }
         );
     }
@@ -78,7 +101,7 @@ class Pages
      */
     public function clearBlockCache(Page $page)
     {
-        \ArrayCache::forget($this->blocksCacheKey.'.'.$page->id);
+        \ArrayCache::forget(config('page.cache-keys.blocks').'.'.$page->id);
     }
 
     /**
@@ -86,7 +109,7 @@ class Pages
      */
     public function clearAllBlockCache()
     {
-        \ArrayCache::forget($this->blocksCacheKey);
+        \ArrayCache::forget(config('page.cache-keys.blocks'));
     }
 
     /**
@@ -94,6 +117,6 @@ class Pages
      */
     public function clearPageCache()
     {
-        \ArrayCache::forget($this->pageCacheKey);
+        \ArrayCache::forget(config('page.cache-keys.pages'));
     }
 }

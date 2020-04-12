@@ -6,7 +6,9 @@
     "order": 0,
     "core": 0,
     "providers": [
-        "Pingu\\Page\\Providers\\PageServiceProvider"
+        "Pingu\\Page\\Providers\\PageServiceProvider",
+        "Pingu\\Page\\Providers\\RouteServiceProvider",
+        "Pingu\\Page\\Providers\\EventServiceProvider"
     ],
     "aliases": {
         "Pages": "Pingu\\Page\\Facades\\Pages"
