@@ -118,5 +118,8 @@ class Pages
     public function clearPageCache()
     {
         \ArrayCache::forget(config('page.cache-keys.pages'));
+        if (app()->routesAreCached()) {
+            \Artisan::call('route:cache');
+        }
     }
 }

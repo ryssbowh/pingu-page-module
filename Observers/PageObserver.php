@@ -9,7 +9,6 @@ class PageObserver
     public function created(Page $page)
     {
         \Pages::clearPageCache();
-        $this->rebuildRouteCache();
     }
 
     public function deleted(Page $page)
@@ -19,20 +18,10 @@ class PageObserver
         }
         \Pages::clearBlockCache($page);
         \Pages::clearPageCache();
-        $this->rebuildRouteCache();
     }
 
-    public function saved(Page $page)
+    public function updated(Page $page)
     {
-        if ($page->wasChanged('slug')) {
-            $this->rebuildRouteCache();
-        }
-    }
-
-    protected function rebuildRouteCache()
-    {
-        if (app()->routesAreCached()) {
-            \Artisan::call('route:cache');
-        }
+        \Pages::clearPageCache();
     }
 }
