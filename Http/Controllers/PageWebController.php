@@ -18,6 +18,9 @@ class PageWebController extends BaseController
         if (!\Gate::check('view', $page)) {
             throw new NotFoundHttpException;
         }
+        if (!$page->published) {
+            \Notify::warning('This page is not published');
+        }
         return $page->render();
     }
 }

@@ -34,6 +34,8 @@ class Page extends Entity implements HasRevisionsContract
         'published' => true
     ];
 
+    public $descriptiveField = 'name';
+
     public static function boot()
     {
         parent::boot();
