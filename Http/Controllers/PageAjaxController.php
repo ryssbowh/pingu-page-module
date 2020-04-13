@@ -52,13 +52,13 @@ class PageAjaxController extends BaseController
     public function patchBlocks(Page $page)
     {
         $blocks = $this->request->post()['blocks'];
-        foreach ($blocks as $blockId => $attributes) {
-            $block = \Pages::block($page, $blockId);
-            $block->pivot->weight = $attributes['weight'];
-            if (isset($attributes['active'])) {
-                $block->active = true;
+        foreach ($blocks as $attributes) {
+            $block = \Pages::block($page, $attributes['id']);
+            if (!$block) {
+                continue;
             }
-            $block->save();
+            $block->pivot->weight = $attributes['weight'];
+            $block->pivot->save();
         }
         \Pages::clearBlockCache($page);
 

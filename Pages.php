@@ -2,7 +2,7 @@
 
 namespace Pingu\Page;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Pingu\Block\Entities\Block;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Http\Controllers\PageWebController;
@@ -28,8 +28,7 @@ class Pages
         $role = \Permissions::getPermissionable();
         return $blocks->filter(
             function ($block) use ($role) {
-                $perm = $block->permission;
-                return ((is_null($perm) or $role->hasPermissionTo($perm)) and $block->active);
+                return \Gate::check('view', $block);
             }
         );
     }
@@ -44,6 +43,39 @@ class Pages
                 ->name('pages.'.$page->machineName)
                 ->middleware('web');
         }
+    }
+
+    public function get($page)
+    {
+        if (is_numeric($page)) {
+            return $this->getById((int)$page);
+        }
+        if (is_string($page)) {
+            return $this->getByName($page);
+        }
+    }
+
+    /**
+     * Get a page by id
+     * 
+     * @param  int    $id
+     * @return ?Page
+     */
+    public function getById(int $id): ?Page
+    {   
+        return $this->all()->where('id', $id)->first();
+    }
+
+    /**
+     * Get a page by name
+     * 
+     * @param string $name
+     * 
+     * @return ?Page
+     */
+    public function getByName(string $name): ?Page
+    {   
+        return $this->all()->where('machineName', $name)->first();
     }
 
     /**

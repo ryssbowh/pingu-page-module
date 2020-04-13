@@ -35,13 +35,10 @@ class PageRenderer extends ObjectRenderer
      */
     public function getDefaultData(): Collection
     {
-        $blocks = $this->object->blocks->map(function($block){
-            return $block->instance();
-        });
         return collect([
             'page' => $this->object,
             'classes' => new ClassBag(['page', 'page-'.$this->object->machineName]),
-            'blocks' => $blocks
+            'blocks' => \Pages::blocks($this->object, true)
         ]);
     }
 }

@@ -9,5 +9,8 @@ use Pingu\Page\Listeners\ClearPageBlockCache;
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
+        BlockCacheChanged::class => [
+            ClearPageBlockCache::class
+        ]
     ];
 }

@@ -4,6 +4,7 @@ namespace Pingu\Page\Http\Controllers;
 
 use Illuminate\Validation\Validator;
 use Pingu\Block\Entities\Block;
+use Pingu\Core\Traits\RendersAdminViews;
 use Pingu\Entity\Contracts\BundleContract;
 use Pingu\Entity\Http\Controllers\AdminEntityController;
 use Pingu\Entity\Support\Entity;
@@ -12,6 +13,8 @@ use Pingu\Page\Entities\Page;
 
 class PageAdminController extends AdminEntityController
 {
+    use RendersAdminViews;
+
     /**
      * Creates the validator for a store request
      * 
@@ -34,12 +37,14 @@ class PageAdminController extends AdminEntityController
     public function content(Page $page)
     {
         \ContextualLinks::addFromObject($page);
-        return view('pages.page.content')->with(
+        return $this->renderAdminView(
+            'pages.page.content',
+            'page-content',
             [
-            'page' => $page,
-            'blocks' => \Blocks::registeredBlocksBySection(),
-            'blockModel' => Block::class,
-            'saveBlocksUri' => Page::uris()->make('patchBlocks', $page, adminPrefix())
+                'page' => $page,
+                'blocks' => \Blocks::registeredBlocksBySection(),
+                'blockModel' => Block::class,
+                'saveBlocksUri' => Page::uris()->make('patchBlocks', $page, adminPrefix())
             ]
         );
     }
