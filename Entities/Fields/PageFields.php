@@ -11,6 +11,9 @@ use Pingu\Permissions\Entities\Permission;
 
 class PageFields extends BaseFieldRepository
 {
+    /**
+     * @inheritDoc
+     */
     protected function fields(): array
     {
         return [
@@ -53,6 +56,30 @@ class PageFields extends BaseFieldRepository
                 ]
             ),
             new Boolean('published')
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function rules(): array
+    {
+        return [
+            'name' => 'required',
+            'machineName' => 'required|unique:pages,machineName',
+            'slug' => 'required|unique:pages,slug',
+            'layout' => 'required',
+            'published' => 'boolean'
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function messages(): array
+    {
+        return [
+
         ];
     }
 }

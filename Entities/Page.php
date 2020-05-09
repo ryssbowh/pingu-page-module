@@ -11,7 +11,8 @@ use Pingu\Core\Traits\RendersWithRenderer;
 use Pingu\Entity\Support\Entity;
 use Pingu\Field\Contracts\HasRevisionsContract;
 use Pingu\Field\Traits\HasRevisions;
-use Pingu\Page\Entities\Policies\PagePolicy;
+use Pingu\Page\Http\Contexts\EditPageContext;
+use Pingu\Page\Http\Contexts\UpdatePageContext;
 use Pingu\Page\Renderers\PageRenderer;
 use Pingu\Permissions\Entities\Permission;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,6 +36,8 @@ class Page extends Entity implements HasRevisionsContract
     ];
 
     public $descriptiveField = 'name';
+
+    public static $routeContexts = [EditPageContext::class, UpdatePageContext::class];
 
     /**
      * @inheritDoc
@@ -120,14 +123,6 @@ class Page extends Entity implements HasRevisionsContract
     {
         $biggest = $this->blocks->last();
         return $biggest ? $biggest->pivot->weight + 1 : 0;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPolicy(): string
-    {
-        return PagePolicy::class;
     }
 
     /**

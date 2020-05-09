@@ -2,14 +2,30 @@
 
 namespace Pingu\Page\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
 use Pingu\Block\Entities\Block;
-use Pingu\Core\Http\Controllers\BaseController;
+use Pingu\Core\Traits\Controllers\RendersAdminViews;
+use Pingu\Entity\Http\Controllers\EntityCrudContextController;
 use Pingu\Page\Entities\Page;
-use Pingu\Page\Entities\PageRegion;
 
-class PageAjaxController extends BaseController
+class PageController extends EntityCrudContextController
 {
+    use RendersAdminViews;
+
+    public function content(Page $page)
+    {
+        \ContextualLinks::addObjectActions($page);
+        return $this->renderAdminView(
+            'pages.page.content',
+            'page-content',
+            [
+                'page' => $page,
+                'blocks' => \Blocks::registeredBlocksBySection(),
+                'blockModel' => Block::class,
+                'saveBlocksUri' => Page::uris()->make('patchBlocks', $page, adminPrefix())
+            ]
+        );
+    }
+
     /**
      * Add a block to a page
      * 
@@ -66,14 +82,17 @@ class PageAjaxController extends BaseController
     }
 
     /**
-     * List a page's blocks
-     * 
-     * @param Page $page
-     * 
-     * @return Collection
+     * @inheritDoc
      */
-    public function blocks(Page $page)
+    public function view(Request $request)
     {
-        return \Pages::blocks($page);
+        $page = Page::findBySlug($request->path());
+        if (!\Gate::check('view', $page)) {
+            throw new NotFoundHttpException;
+        }
+        if (!$page->published) {
+            \Notify::warning('This page is not published');
+        }
+        return $page->render();
     }
 }

@@ -17,10 +17,10 @@ class PageRoutes extends BaseEntityRoutes
     {
         return [
             'admin' => [
-                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete', 'content'
+                'index', 'create', 'store', 'edit', 'update', 'patch', 'confirmDelete', 'delete', 'content', 'deleteBlock'
             ],
             'ajax' => [
-                'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'delete', 'blocks', 'addBlock', 'patchBlocks'
+                'index', 'view', 'create', 'store', 'edit', 'update', 'patch', 'delete', 'addBlock', 'patchBlocks', 'deleteBlock'
             ]
         ];
     }
@@ -32,9 +32,9 @@ class PageRoutes extends BaseEntityRoutes
     {
         return [
             'content' => 'can:view,@slug',
-            'blocks' => 'can:view,@slug',
-            'patchBlocks' => ['can:edit,@slug','can:edit,'.Block::routeSlug()],
-            'addBlock' => ['can:edit,@slug','can:create,'.Block::routeSlug()]
+            'patchBlocks' => 'can:edit,@slug',
+            'addBlock' => 'can:edit,@slug',
+            'deleteBlock' => 'can:edit,@slug'
         ];
     }
 
@@ -45,7 +45,8 @@ class PageRoutes extends BaseEntityRoutes
     {
         return [
             'patchBlocks' => 'patch',
-            'addBlock' => 'post'
+            'addBlock' => 'post',
+            'deleteBlock' => 'delete'
         ];
     }
 }

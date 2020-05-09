@@ -72,7 +72,7 @@ class AjaxBlockController extends AjaxModelController
         $validated = $this->validateUpdateRequest($block->instance);
 
         try{
-            $block->instance->saveWithRelations($validated);
+            $block->instance->saveFields($validated);
         }
         catch(ModelNotSaved $e){
             $this->onUpdateFailure($block, $e);

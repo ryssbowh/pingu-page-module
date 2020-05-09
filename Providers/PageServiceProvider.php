@@ -4,6 +4,7 @@ namespace Pingu\Page\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
 use Pingu\Core\Support\ModuleServiceProvider;
+use Pingu\Page\Contexts\EditPageContext;
 use Pingu\Page\Entities\Page;
 use Pingu\Page\Entities\PageLayout;
 use Pingu\Page\Observers\PageObserver;
@@ -37,6 +38,7 @@ class PageServiceProvider extends ModuleServiceProvider
         \JsConfig::setMany(
             [
             'page.uris.addBlock' => Page::uris()->get('addBlock', ajaxPrefix()),
+            'page.uris.deleteBlock' => Page::uris()->get('deleteBlock', ajaxPrefix()),
             'page.uris.patchBlocks' => Page::uris()->get('patchBlocks', ajaxPrefix())
             ]
         );

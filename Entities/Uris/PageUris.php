@@ -3,18 +3,18 @@
 namespace Pingu\Page\Entities\Uris;
 
 use Pingu\Block\Entities\Block;
-use Pingu\Entity\Support\Uris\BaseEntityUris;
+use Pingu\Core\Support\Uris\BaseModelUris;
 
-class PageUris extends BaseEntityUris
+class PageUris extends BaseModelUris
 {
     protected function uris(): array
     {
         return [
-            'content' => '@entity/{@entity}/content',
-            'blocks' => '@entity/{@entity}/blocks',
-            'patchBlocks' => '@entity/{@entity}/blocks',
-            'addBlock' => '@entity/{@entity}/addBlock/{'.Block::routeSlug().'}',
-            'deleteBlock' => '@entity/{@entity}/deleteBlock/{'.Block::routeSlug().'}'
+            'content' => '@slug@/{@slug@}/content',
+            'blocks' => '@slug@/{@slug@}/blocks',
+            'patchBlocks' => '@slug@/{@slug@}/blocks',
+            'addBlock' => '@slug@/{@slug@}/addBlock/{'.Block::routeSlug().'}',
+            'deleteBlock' => '@slug@/{@slug@}/deleteBlock/{'.Block::routeSlug().'}'
         ];
     }
 }

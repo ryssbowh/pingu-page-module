@@ -7,8 +7,16 @@ const Page = (() => {
         return Helpers.post(uri);
     }
 
+    function deleteBlockRequest(page, blockId)
+    {
+        let uri = Config.get('page.uris.deleteBlock');
+        uri = Helpers.replaceUriSlugs(uri, [page, blockId]);
+        return Helpers._delete(uri);
+    }
+
     return {
-        addBlockRequest: addBlockRequest
+        addBlockRequest: addBlockRequest,
+        deleteBlockRequest: deleteBlockRequest
     };
 
 })();
